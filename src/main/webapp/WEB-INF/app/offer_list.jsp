@@ -1,6 +1,6 @@
 <%-- 
-    Document   : changeUserData
-    Created on : 28.02.2018, 14:08:19
+    Document   : anzeige_list
+    Created on : 28.02.2018, 17:58:04
     Author     : METELC
 --%>
 --%>
@@ -21,11 +21,18 @@
 
     <jsp:attribute name="menu">
         <div class="menuitem">
-            <a href="<c:url value="/app/task/new/"/>">Aufgabe anlegen</a>
+            <a href="<c:url value="/app/task/new/"/>">Angebot anlegen</a>
         </div>
 
         <div class="menuitem">
-            <a href="<c:url value="/app/categories/"/>">Kategorien bearbeiten</a>
+            <a href="<c:url value="/app/kategorien/"/>">Kategorien bearbeiten</a>
+        </div>
+        <div class="menuitem">
+            <a href="<c:url value="/app/benutzer/"/>">Benutzer bearbeiten</a>
+        </div>
+        
+        <div class="menuitem">
+            <a class="icon-logout" href="<c:url value="/logout/"/>">Ausloggen</a>
         </div>
     </jsp:attribute>
 
@@ -34,22 +41,22 @@
         <form method="GET" class="horizontal" id="search">
             <input type="text" name="search_text" value="${param.search_text}" placeholder="Beschreibung"/>
 
-            <select name="search_category">
+            <select name="search_kategorie">
                 <option value="">Alle Kategorien</option>
 
-                <c:forEach items="${categories}" var="category">
-                    <option value="${category.id}" ${param.search_category == category.id ? 'selected' : ''}>
-                        <c:out value="${category.name}" />
+                <c:forEach items="${kategorien}" var="category">
+                    <option value="${kategorie.slag}" ${param.search_kategorie == kategorie.slug ? 'selected' : ''}>
+                        <c:out value="${kategorie.name}" />
                     </option>
                 </c:forEach>
             </select>
 
-            <select name="search_status">
-                <option value="">Alle Stati</option>
+            <select name="search_angebotsart">
+                <option value="">Alle Angebotsarten</option>
 
-                <c:forEach items="${statuses}" var="status">
-                    <option value="${status}" ${param.search_status == status ? 'selected' : ''}>
-                        <c:out value="${status.label}"/>
+                <c:forEach items="${angebotsarten}" var="art">
+                    <option value="${art}" ${param.search_art == art ? 'selected' : ''}>
+                        <c:out value="${art}"/>
                     </option>
                 </c:forEach>
             </select>
@@ -61,9 +68,9 @@
 
         <%-- Gefundene Aufgaben --%>
         <c:choose>
-            <c:when test="${empty tasks}">
+            <c:when test="${empty anzeigen}">
                 <p>
-                    Es wurden keine Aufgaben gefunden. 🐈
+                    Es wurden keine Anzeigen gefunden. 🐈
                 </p>
             </c:when>
             <c:otherwise>
@@ -74,30 +81,37 @@
                         <tr>
                             <th>Bezeichnung</th>
                             <th>Kategorie</th>
-                            <th>Eigentümer</th>
-                            <th>Status</th>
-                            <th>Fällig am</th>
+                            <th>Besitzer</th>
+                            <th>Angebotstyp</th>
+                            <th>Preis</th>
+                            <th>Preistyp</th>
+                            <th>Datum</th>
                         </tr>
                     </thead>
-                    <c:forEach items="${tasks}" var="task">
+                    <c:forEach items="${anzeigen}" var="anzeige">
                         <tr>
                             <td>
-                                <a href="<c:url value="/app/task/${task.id}/"/>">
-                                    <c:out value="${task.shortText}"/>
+                                <a href="<c:url value="/app/task/${anzeige.id}/"/>">
+                                    <c:out value="${anzeige.titel}"/>
                                 </a>
                             </td>
                             <td>
-                                <c:out value="${task.category.name}"/>
+                                <c:out value="${anzeige.kategorie.name}"/>
                             </td>
                             <td>
-                                <c:out value="${task.owner.username}"/>
+                                <c:out value="${anzeige.besitzer.benutzername}"/>
                             </td>
                             <td>
-                                <c:out value="${task.status.label}"/>
+                                <c:out value="${anzeige.art}"/>
                             </td>
                             <td>
-                                <c:out value="${utils.formatDate(task.dueDate)}"/>
-                                <c:out value="${utils.formatTime(task.dueTime)}"/>
+                                <c:out value="${anzeige.preis}"/>
+                            </td>
+                            <td>
+                                <c:out value="${anzeige.preistyp}"/>
+                            </td>
+                            <td>
+                                <c:out value="${utils.formatDate(anzeige.datum)}"/>
                             </td>
                         </tr>
                     </c:forEach>
