@@ -1,12 +1,9 @@
 <%-- 
-    Copyright © 2018 Dennis Schulmeister-Zimolong
-
-    E-Mail: dhbw@windows3.de
-    Webseite: https://www.wpvs.de/
-
-    Dieser Quellcode ist lizenziert unter einer
-    Creative Commons Namensnennung 4.0 International Lizenz.
+    Document   : changeUserData
+    Created on : 28.02.2018, 14:08:19
+    Author     : METELC
 --%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@taglib tagdir="/WEB-INF/tags/templates" prefix="template"%>
@@ -17,7 +14,7 @@
 
 <template:base>
     <jsp:attribute name="title">
-        Registrierung
+        Benutzerprofil bearbeiten
     </jsp:attribute>
 
     <jsp:attribute name="head">
@@ -26,7 +23,10 @@
         
     <jsp:attribute name="menu">
         <div class="menuitem">
-            <a class="icon-login" href="<c:url value="/logout/"/>">Einloggen</a>
+            <a href="<c:url value="/overview/"/>">Übersicht</a>
+        </div>
+        <div class="menuitem">
+            <a class="icon-logout" href="<c:url value="/logout/"/>">Ausloggen</a>
         </div>
     </jsp:attribute>
 
@@ -37,72 +37,77 @@
                     <%-- CSRF-Token --%>
                     <input type="hidden" name="csrf_token" value="${csrf_token}">
                     <h2 >
-                        Logindaten
+                        Passwort ändern
                         </h2>
                     <%-- Eingabefelder --%>
-                    <label for="signup_username">
+                    <label for="change_username">
                         Benutzername:
-                        <span class="required">*</span>
                     </label>
-                    <input type="text" name="signup_username" value="${signup_form.values["signup_username"][0]}">
+                    <input type="text" name="change_username" value="${change_form.values["change_username"][0]}">
 
-                    <label for="signup_password1">
-                        Passwort:
+                    <label for="change_old_password">
+                        Altes Passwort:
                         <span class="required">*</span>
                     </label>
-                    <input type="password" name="signup_password1" value="${signup_form.values["signup_password1"][0]}">
+                    <input type="password" name="change_old_password" value="${change_form.values["change_old_password"][0]}">
 
-                    <label for="signup_password2">
-                        Passwort (wdh.):
+                    <label for="change_new_password1">
+                        Neues Passwort:
                         <span class="required">*</span>
                     </label>
-                    <input type="password" name="signup_password2" value="${signup_form.values["signup_password2"][0]}">
+                    <input type="password" name="change_new_password1" value="${change_form.values["change_new_password1"][0]}">
+                     
+                    <label for="change_new_password2">
+                        Neues Passwort (wdh.):
+                        <span class="required">*</span>
+                    </label>
+                    <input type="password" name="change_new_password2" value="${change_form.values["change_new_password2"][0]}">
 
                     <h2 >
                         Anschrift
                         </h2>
                     <%-- Eingabefelder --%>
-                    <label for="signup_name">
+                    <label for="change_name">
                         Vor- und Nachname
                         <span class="required">*</span>
                     </label>
-                    <input type="text" name="signup_name" value="${signup_form.values["signup_name"][0]}">
+                    <input type="text" name="change_name" value="${change_form.values["change_name"][0]}">
 
-                    <label for="signup_street_number">
+                    <label for="change_street_number">
                         Straße und Hausnummer
                         <span class="required">*</span>
                     </label>
-                    <input type="text" name="signup_street_number" value="${signup_form.values["signup_street_number"][0]}">
+                    <input type="text" name="change_street_number" value="${change_form.values["change_street_number"][0]}">
 
-                    <label for="signup_plz_city">
+                    <label for="change_plz_and_city">
                         Postleitzahl und Ort
                         <span class="required">*</span>
                     </label>
-                    <input type="text" name="signup_plz_city" value="${signup_form.values["signup_plz_city"][0]}">
+                    <input type="text" name="change_plz_and_city" value="${change_form.values["change_plz_and_city"][0]}">
                     <h2 >
                         Kontaktdaten
                         </h2>
                     <%-- Eingabefelder --%>
-                    <label for="signup_email">
+                    <label for="change_email">
                         E-Mail
                         <span class="required">*</span>
                     </label>
-                    <input type="text" name="signup_email" value="${signup_form.values["signup_email"][0]}">
+                    <input type="text" name="change_email" value="${change_form.values["change_email"][0]}">
 
-                    <label for="signup_tel">
+                    <label for="change_tel">
                         Telefonnummer
                         </label>
-                    <input type="text" name="signup_tel" value="${signup_form.values["signup_tel"][0]}">
+                    <input type="text" name="change_tel" value="${change_form.values["change_tel"][0]}">
                     <%-- Button zum Abschicken --%>
                     <button class="icon-pencil" type="submit">
-                        Registrieren
+                        Daten ändern
                     </button>
                 </div> 
 
                 <%-- Fehlermeldungen --%>
-                <c:if test="${!empty signup_form.errors}">
+                <c:if test="${!empty change_form.errors}">
                     <ul class="errors">
-                        <c:forEach items="${signup_form.errors}" var="error">
+                        <c:forEach items="${change_form.errors}" var="error">
                             <li>${error}</li>
                             </c:forEach>
                     </ul>
