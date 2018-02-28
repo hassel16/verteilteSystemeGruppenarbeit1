@@ -1,7 +1,8 @@
 package dhbwka.wwi.vertsys.javaee.jtodo.jpa;
 
-import dhbwka.wwi.vertsys.javaee.jtodo.jpa.Foto;
-import dhbwka.wwi.vertsys.javaee.jtodo.jpa.Kategorie;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Anzeige;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Foto;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Kategorie;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;

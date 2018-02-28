@@ -1,8 +1,9 @@
 package dhbwka.wwi.vertsys.javaee.jtodo.jpa;
 
-import dhbwka.wwi.vertsys.javaee.jtodo.jpa.Category;
-import dhbwka.wwi.vertsys.javaee.jtodo.jpa.TaskStatus;
-import dhbwka.wwi.vertsys.javaee.jtodo.jpa.User;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Task;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Category;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.TaskStatus;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.User;
 import java.sql.Date;
 import java.sql.Time;
 import javax.annotation.Generated;

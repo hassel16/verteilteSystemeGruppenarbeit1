@@ -1,6 +1,6 @@
 package dhbwka.wwi.vertsys.javaee.jtodo.jpa;
 
-import dhbwka.wwi.vertsys.javaee.jtodo.jpa.Kategorie;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Kategorie;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;

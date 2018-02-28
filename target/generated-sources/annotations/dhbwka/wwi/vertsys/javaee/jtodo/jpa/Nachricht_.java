@@ -1,6 +1,7 @@
 package dhbwka.wwi.vertsys.javaee.jtodo.jpa;
 
-import dhbwka.wwi.vertsys.javaee.jtodo.jpa.Benutzer;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Nachricht;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Benutzer;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;

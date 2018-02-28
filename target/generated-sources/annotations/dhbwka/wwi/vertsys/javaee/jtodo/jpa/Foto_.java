@@ -1,5 +1,6 @@
 package dhbwka.wwi.vertsys.javaee.jtodo.jpa;
 
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Foto;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;

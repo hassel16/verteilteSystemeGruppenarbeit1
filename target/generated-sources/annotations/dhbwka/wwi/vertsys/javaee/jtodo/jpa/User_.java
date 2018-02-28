@@ -1,6 +1,7 @@
 package dhbwka.wwi.vertsys.javaee.jtodo.jpa;
 
-import dhbwka.wwi.vertsys.javaee.jtodo.jpa.Task;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.User;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Task;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
