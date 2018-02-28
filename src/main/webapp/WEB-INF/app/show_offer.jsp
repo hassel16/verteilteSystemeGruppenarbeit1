@@ -1,18 +1,14 @@
 <%-- 
-    Copyright © 2018 Dennis Schulmeister-Zimolong
-
-    E-Mail: dhbw@windows3.de
-    Webseite: https://www.wpvs.de/
-
-    Dieser Quellcode ist lizenziert unter einer
-    Creative Commons Namensnennung 4.0 International Lizenz.
+    Document   : changeUserData
+    Created on : 28.02.2018, 14:08:19
+    Author     : METELC
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@taglib tagdir="/WEB-INF/tags/templates" prefix="template"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
+wa
 <template:base>
     <jsp:attribute name="title">
         Angebot anzeigen
@@ -40,83 +36,52 @@
                 <%-- Eingabefelder --%>
                 <label for="anzeige_kategorie">Kategorie:</label>
                 <div class="side-by-side">
-                    <select name="anzeige_kategorie">
-                        <option value="">Keine Kategorie</option>
-
-                        <c:forEach items="${kategorien}" var="kategorie">
-                            <option value="${kategorie.slag}" ${show_offer_form.values["kategorien"][0] == kategorie.slag ? 'selected' : ''}>
-                                  <c:out value="${kategorie.name}" />
-                            </option>
-                       
-                        </c:forEach>
-                    </select>
+                    <input readonly type="text" name="anzeige_kategorie" value="${anzeige.getKategorie().getName()}">
                 </div>
                 
-                <label for="anzeige_art">Art des Angebots
-                <span class="required">*</span>
-                </label>
+                <label for="anzeige_kategorie">Art</label>
                 <div class="side-by-side">
-                    <select name="anzeige_art">
-                        <option value="">Biete</option>
-
-                        <c:forEach items="${arten}" var="art">
-                          <%--  <option value="${art}" ${show_offer_form.values["arten"][0] == art ? 'selected' : ''}>
-                                <c:out value="${art}" />
-                            </option>--%>
-                          <c:out value="${art}" />   <%-- added for the above --%>
-                        </c:forEach>
-                    </select>
+                    <input readonly type="text" name="anzeige_kategorie" value="${anzeige.getArt()}">
                 </div>
 
                 <label for="anzeige_bezeichnung">
                     Bezeichnung:
-                    <span class="required">*</span>
                 </label>
                 <div class="side-by-side">
-                    <input readonly type="text" name="anzeige_bezeichnung" value="${show_offer_form.values["bezeichnung"][0]}">
+                    <input readonly type="text" name="anzeige_bezeichnung" value="${anzeige.getTitel()}">
                 </div>
                 
                 <label for="anzeige_beschreibung">
                     Beschreibung:
                 </label>
                 <div class="side-by-side">
-                    <textarea name="anzeige_beschreibung"><c:out value="${show_offer_form.values['beschreibung'][0]}"/></textarea>
+                    <textarea readonly name="anzeige_beschreibung"><c:out value="${anzeige.getBeschreibung()}"/></textarea>
                 </div>
                 
                 <label for="preis_art">
                     Preis:
-                    <span class="preis_art">*</span>
                 </label>
                 <div class="side-by-side">
-                     <select name="preis_art">
-                        <c:forEach items="${preis_arten}" var="preis_art">
-                            <%--
-                            <option value="${preis_art}" ${show_offer_form.values["preis_art"][0] == status ? 'selected' : ''}>
-                               
-                                <c:out value="${preis_art}"/>
-                            </option> --%>
-                            <c:out value="${preis_art}"/> <%-- added for the above --%>
-                        </c:forEach>
-                    </select>
-                    <input readonly type="text" name="preis" value="${show_offer_form.values["preis"][0]}">
+                   <input readonly type="text" name="preis_art" value="${anzeige.getPreisArt()}">
+                    <input readonly type="text" name="preis" value="${anzeige.getPreis()}">
                 </div>
                 
                 <label>
                     Angelegt am:
                 </label>
                  <div class="side-by-side">
-                     <c:out value="${angelegt_am}"/>
+                     <c:out value="${datum}"/>
                   </div>
                   
                   <label>
                     Anbieter
                     </label>
                  <div class="side-by-side">
-                     <c:out value="${besitzername}"/>
-                     <c:out value="${besitzer.nummer_straße}"/>
-                     <c:out value="${besitzer.plz_city}"/>
-                     <c:out value="${besitzer.email}"/>
-                     <c:out value="${besitzer.tel}"/>
+                     <c:out value="${anzeige.getBesitzer().getName()}"/>
+                     <c:out value="${anzeige.getBesitzer().getHausnummer()} ${anzeige.getBesitzer().getStraße()}"/>
+                     <c:out value="${anzeige.getBesitzer().getPlz()} ${anzeige.getBesitzer().getOrt()}"/>
+                     <c:out value="${anzeige.getBesitzer().getEmail()}"/>
+                     <c:out value="${anzeige.getBesitzer().getTel()}"/>
                   </div>
                   
 

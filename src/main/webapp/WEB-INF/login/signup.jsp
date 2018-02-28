@@ -26,6 +26,10 @@
         
     <jsp:attribute name="menu">
         <div class="menuitem">
+            <a class="icon-cog" href="<c:url value="/favorites/"/>">Favoriten</a>
+        </div>
+        
+        <div class="menuitem">
             <a class="icon-login" href="<c:url value="/logout/"/>">Einloggen</a>
         </div>
     </jsp:attribute>
@@ -78,7 +82,10 @@
                         Postleitzahl und Ort
                         <span class="required">*</span>
                     </label>
-                    <input type="text" name="signup_plz_city" value="${signup_form.values["signup_plz_city"][0]}">
+                    <div class="side-by-side">
+                    <input type="text" name="signup_plz" value="${signup_form.values["signup_plz"][0]}">
+                    <input type="text" name="signup_city" value="${signup_form.values["signup_city"][0]}">
+                    </div>
                     <h2 >
                         Kontaktdaten
                         </h2>

@@ -23,12 +23,6 @@
             <a href="<c:url value="/overview/"/>">Übersicht</a>
         </div>
         <div class="menuitem">
-            <a class="icon-th"  href="<c:url value="/favorites/"/>">Favoriten</a>
-        </div>
-        <div class="menuitem">
-            <a class="icon-cog" href="<c:url value="/app/kategorien/"/>">Kategorien bearbeiten</a>
-        </div>
-        <div class="menuitem">
             <a href="<c:url value="/logout/"/>">Einloggen</a>
         </div>
     </jsp:attribute>
@@ -63,26 +57,40 @@
                         <option value="">Biete</option>
 
                         <c:forEach items="${arten}" var="art">
-                            <option value="${art}" ${show_offer_form.values["arten"][0] == art ? 'selected' : ''}>
+                            <option value="${art}" ${modify_offer_form.values["arten"][0] == art ? 'selected' : ''}>
                                 <c:out value="${art}" />
                             </option>
                         </c:forEach>
                     </select>
                 </div>
 
+                <label for="anzeige_status">Status des Angebots
+                </label>
+                <div class="side-by-side">
+                    <select name="anzeige_status">
+                        <option value="">offen</option>
+
+                        <c:forEach items="${status}" var="status1">
+                            <option value="${status1}" ${modify_offer_form.values["status"][0] == status1 ? 'selected' : ''}>
+                                <c:out value="${status1}" />
+                            </option>
+                        </c:forEach>
+                    </select>
+                </div>
+                
                 <label for="anzeige_bezeichnung">
                     Bezeichnung:
                     <span class="required">*</span>
                 </label>
                 <div class="side-by-side">
-                    <input readonly type="text" name="anzeige_bezeichnung" value="${show_offer_form.values["bezeichnung"][0]}">
+                    <input  type="text" name="anzeige_bezeichnung" value="${modify_offer_form.values["bezeichnung"][0]}">
                 </div>
                 
                 <label for="anzeige_beschreibung">
                     Beschreibung:
                 </label>
                 <div class="side-by-side">
-                    <textarea name="anzeige_beschreibung"><c:out value="${show_offer_form.values['beschreibung'][0]}"/></textarea>
+                    <textarea name="anzeige_beschreibung"><c:out value="${modify_offer_form.values['beschreibung'][0]}"/></textarea>
                 </div>
                 
                 <label for="preis_art">
@@ -92,12 +100,12 @@
                 <div class="side-by-side">
                      <select name="preis_art">
                         <c:forEach items="${preis_arten}" var="preis_art">
-                            <option value="${preis_art}" ${show_offer_form.values["preis_art"][0] == status ? 'selected' : ''}>
+                            <option value="${preis_art}" ${modify_offer_form.values["preis_art"][0] == status ? 'selected' : ''}>
                                 <c:out value="${preis_art}"/>
                             </option>
                         </c:forEach>
                     </select>
-                    <input readonly type="text" name="preis" value="${show_offer_form.values["preis"][0]}">
+                    <input  type="text" name="preis" value="${modify_offer_form.values["preis"][0]}">
                 </div>
      
                 <label>

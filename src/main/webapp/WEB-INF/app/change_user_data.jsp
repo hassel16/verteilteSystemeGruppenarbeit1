@@ -26,6 +26,9 @@
             <a href="<c:url value="/overview/"/>">Übersicht</a>
         </div>
         <div class="menuitem">
+            <a class="icon-th"  href="<c:url value="/favorites/"/>">Favoriten</a>
+        </div>
+        <div class="menuitem">
             <a class="icon-logout" href="<c:url value="/logout/"/>">Ausloggen</a>
         </div>
     </jsp:attribute>

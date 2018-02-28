@@ -2,6 +2,7 @@
     Document   : changeUserData
     Created on : 28.02.2018, 14:08:19
     Author     : METELC
+    Not to be used
 --%>
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

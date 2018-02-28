@@ -20,15 +20,26 @@
     </jsp:attribute>
 
     <jsp:attribute name="menu">
+        <c:when test="${favoriten}">
+            <div class="menuitem">
+            <a href="<c:url value="/overview/"/>">Übersicht</a>
+        </div>
+        </c:when>
+        <c:otherwise>
+            <div class="menuitem">
+            <a class="icon-th"  href="<c:url value="/favorites/"/>">Favoriten</a>
+        </div>
+        </c:otherwise>
+        
         <div class="menuitem">
             <a href="<c:url value="/app/task/new/"/>">Angebot anlegen</a>
         </div>
 
         <div class="menuitem">
-            <a href="<c:url value="/app/kategorien/"/>">Kategorien bearbeiten</a>
+            <a class="icon-cog" href="<c:url value="/app/kategorien/"/>">Kategorien bearbeiten</a>
         </div>
         <div class="menuitem">
-            <a href="<c:url value="/app/benutzer/"/>">Benutzer bearbeiten</a>
+            <a class="icon-user" href="<c:url value="/app/benutzer/"/>">Benutzer bearbeiten</a>
         </div>
         
         <div class="menuitem">
