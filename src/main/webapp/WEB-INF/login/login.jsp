@@ -37,13 +37,13 @@
                         Benutzername:
                         <span class="required">*</span>
                     </label>
-                    <input type="text" name="j_username">
+                    <input required type="text" name="j_username">
 
                     <label for="j_password">
                         Passwort:
                         <span class="required">*</span>
                     </label>
-                    <input type="password" name="j_password">
+                    <input required type="password" name="j_password">
 
                     <%-- Button zum Abschicken --%>
                     <button class="icon-login" type="submit">

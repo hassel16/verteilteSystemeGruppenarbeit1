@@ -39,7 +39,7 @@
             <form method="post" class="stacked">
                 <div class="column">
                     <%-- CSRF-Token --%>
-                    <input type="hidden" name="csrf_token" value="${csrf_token}">
+                    <input type="hidden" required name="csrf_token" value="${csrf_token}">
                     <h2 >
                         Logindaten
                         </h2>
@@ -48,44 +48,59 @@
                         Benutzername:
                         <span class="required">*</span>
                     </label>
-                    <input type="text" name="signup_username" value="${signup_form.values["signup_username"][0]}">
+                    <input type="text" required name="signup_username" value="${signup_form.values["signup_username"][0]}">
 
                     <label for="signup_password1">
                         Passwort:
                         <span class="required">*</span>
                     </label>
-                    <input type="password" name="signup_password1" value="${signup_form.values["signup_password1"][0]}">
+                    <input type="password" required name="signup_password1" value="${signup_form.values["signup_password1"][0]}">
 
                     <label for="signup_password2">
                         Passwort (wdh.):
                         <span class="required">*</span>
                     </label>
-                    <input type="password" name="signup_password2" value="${signup_form.values["signup_password2"][0]}">
+                    <input type="password" required name="signup_password2" value="${signup_form.values["signup_password2"][0]}">
 
                     <h2 >
                         Anschrift
                         </h2>
                     <%-- Eingabefelder --%>
-                    <label for="signup_name">
-                        Vor- und Nachname
+                    <label for="signup_vorname">
+                        Vorname
                         <span class="required">*</span>
                     </label>
-                    <input type="text" name="signup_name" value="${signup_form.values["signup_name"][0]}">
-
-                    <label for="signup_street_number">
-                        Straße und Hausnummer
+                    <input type="text" required name="signup_nachname" value="${signup_form.values["signup_vorname"][0]}">
+                    
+                    <label for="signup_nachname">
+                        Nachname
                         <span class="required">*</span>
                     </label>
-                    <input type="text" name="signup_street_number" value="${signup_form.values["signup_street_number"][0]}">
-
+                    <input type="text" required name="signup_nachname" value="${signup_form.values["signup_nachname"][0]}">
+ 
+                    <label for="signup_street">
+                        Hausnummer und Straße
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                    <input type="text" required name="signup_street_number" value="${signup_form.values["signup_street_number"][0]}">
+                    <input type="text" required name="signup_street" value="${signup_form.values["signup_street"][0]}">
+                    </div>
+                    
                     <label for="signup_plz_city">
                         Postleitzahl und Ort
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                    <input type="text" name="signup_plz" value="${signup_form.values["signup_plz"][0]}">
-                    <input type="text" name="signup_city" value="${signup_form.values["signup_city"][0]}">
+                    <input type="text" required name="signup_plz" value="${signup_form.values["signup_plz"][0]}">
+                    <input type="text" required name="signup_city" value="${signup_form.values["signup_city"][0]}">
                     </div>
+                    
+                    <label for="signup_land">
+                        Land
+                        <span class="required">*</span>
+                    </label>
+                     <input type="text" required name="signup_land" value="${signup_form.values["signup_land"][0]}">
                     <h2 >
                         Kontaktdaten
                         </h2>
@@ -94,7 +109,7 @@
                         E-Mail
                         <span class="required">*</span>
                     </label>
-                    <input type="text" name="signup_email" value="${signup_form.values["signup_email"][0]}">
+                    <input type="text" required name="signup_email" value="${signup_form.values["signup_email"][0]}">
 
                     <label for="signup_tel">
                         Telefonnummer

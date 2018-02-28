@@ -75,7 +75,7 @@
                     <span class="required">*</span>
                 </label>
                 <div class="side-by-side">
-                    <input readonly type="text" name="anzeige_bezeichnung" value="${show_offer_form.values["bezeichnung"][0]}">
+                    <input readonly type="text" name="anzeige_bezeichnung" required value="${show_offer_form.values["bezeichnung"][0]}">
                 </div>
                 
                 <label for="anzeige_beschreibung">
@@ -97,14 +97,14 @@
                             </option>
                         </c:forEach>
                     </select>
-                    <input readonly type="text" name="preis" value="${show_offer_form.values["preis"][0]}">
+                    <input readonly required type="text" name="preis" value="${show_offer_form.values["preis"][0]}">
                 </div>
      
                 <label>
                     Angelegt am:
                 </label>
                  <div class="side-by-side">
-                     <c:out value="${angelegt_am}"/>
+                     <c:out value="${utils.formatDate(currentDate, datePattern)}"/>
                   </div>
                   
                   <label>
@@ -112,10 +112,10 @@
                     </label>
                  <div class="side-by-side">
                      <c:out value="${besitzername}"/>
-                     <c:out value="${besitzer.nummer_straße}"/>
-                     <c:out value="${besitzer.plz_city}"/>
-                     <c:out value="${besitzer.email}"/>
-                     <c:out value="${besitzer.tel}"/>
+                     <c:out value="${besitzer.getHausnummer()} ${besitzer.getStraße()}"/>
+                     <c:out value="${besitzer.getPlz()} ${besitzer.getOrt()}"/>
+                     <c:out value="${besitzer.getEmail()}"/>
+                     <c:out value="${besitzer.getTelefonnummer()}"/>
                   </div>
                   
 

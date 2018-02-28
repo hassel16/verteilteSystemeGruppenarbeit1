@@ -102,27 +102,27 @@
                     <c:forEach items="${anzeigen}" var="anzeige">
                         <tr>
                             <td>
-                                <a href="<c:url value="/app/task/${anzeige.id}/"/>">
-                                    <c:out value="${anzeige.titel}"/>
+                                <a href="<c:url value="/offer/?id=${anzeige.getId()}/"/>">
+                                    <c:out value="${anzeige.getTitel()}"/>
                                 </a>
                             </td>
                             <td>
-                                <c:out value="${anzeige.kategorie.name}"/>
+                                <c:out value="${anzeige.getKategorie().getName()}"/>
                             </td>
                             <td>
-                                <c:out value="${anzeige.besitzer.benutzername}"/>
+                                <c:out value="${anzeige.getBesitzer().getBenutzername()}"/>
                             </td>
                             <td>
-                                <c:out value="${anzeige.art}"/>
+                                <c:out value="${anzeige.getArt()}"/>
                             </td>
                             <td>
-                                <c:out value="${anzeige.preis}"/>
+                                <c:out value="${anzeige.getPreis()}"/>
                             </td>
                             <td>
-                                <c:out value="${anzeige.preistyp}"/>
+                                <c:out value="${anzeige.getPreistyp()}"/>
                             </td>
                             <td>
-                                <c:out value="${utils.formatDate(anzeige.datum)}"/>
+                                <c:out value="${utils.formatDate(anzeige.getDatum(), datePattern)}"/>
                             </td>
                         </tr>
                     </c:forEach>
