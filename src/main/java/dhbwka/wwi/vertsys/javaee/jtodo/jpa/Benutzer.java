@@ -18,12 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
-import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -35,8 +32,8 @@ import lombok.Setter;
  */
 @Entity
 @Getter
-@AllArgsConstructor
 @Setter
+@AllArgsConstructor
 public class Benutzer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -106,6 +103,8 @@ public class Benutzer implements Serializable {
 
     
     //</editor-fold>
+    
+    
 
     public Benutzer(String benutzername, String passwortHash) {
         this.benutzername = benutzername;
@@ -133,7 +132,7 @@ public class Benutzer implements Serializable {
 
         BigInteger bigInt = new BigInteger(1, hash);
         return bigInt.toString(16);
-    }
+     }
      
     
 }

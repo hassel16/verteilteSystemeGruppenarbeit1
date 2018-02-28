@@ -46,4 +46,5 @@ public class Kategorie implements Serializable {
     @JoinColumn(name="slug")
     private List<Kategorie> elternKategorie = new ArrayList<>();
     
+    Kategorie(){}
 }

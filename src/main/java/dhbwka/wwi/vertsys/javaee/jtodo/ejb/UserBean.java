@@ -50,7 +50,7 @@ public class UserBean {
         }
 
         User user = new User(username, password);
-        user.addToGroup("todo-app-user");
+        user.addToGroup("youbuy-app-user");
         em.persist(user);
     }
 
@@ -61,7 +61,7 @@ public class UserBean {
      * @param newPassword
      * @throws UserBean.InvalidCredentialsException
      */
-    @RolesAllowed("todo-app-user")
+    @RolesAllowed("youbuy-app-user")
     public void changePassword(String username, String oldPassword, String newPassword) throws InvalidCredentialsException {
         User user = em.find(User.class, username);
 

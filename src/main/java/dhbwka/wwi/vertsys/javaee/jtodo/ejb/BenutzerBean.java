@@ -67,14 +67,13 @@ public class BenutzerBean {
      * @param neuPasswort
      * @throws UserBean.InvalidCredentialsException
      */
-    @RolesAllowed("todo-app-user")
+    @RolesAllowed("youbuy-app-user")
     public void changePassword(String benutzername, String altPasswort, String neuPasswort) throws InvalidCredentialsException {
         Benutzer benutzer = em.find(Benutzer.class, benutzername);
 
         if (benutzer == null || !benutzer.checkPasswort(altPasswort)) {
             throw new InvalidCredentialsException("Benutzername oder Passwort sind falsch.");
         }
-
         benutzer.setPasswortHash(neuPasswort);
         em.merge(benutzer);
     }

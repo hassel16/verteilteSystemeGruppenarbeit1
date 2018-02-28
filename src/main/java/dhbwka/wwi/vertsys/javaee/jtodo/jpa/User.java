@@ -29,12 +29,16 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Datenbankklasse für einen Benutzer.
  */
 @Entity
-@Table(name = "JTODO_USER")
+@Setter
+@Getter
+@Table(name = "YOUBUY_USER")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,7 +59,7 @@ public class User implements Serializable {
 
     @ElementCollection
     @CollectionTable(
-            name = "JTODO_USER_GROUP",
+            name = "YOUBUY_USER_GROUP",
             joinColumns = @JoinColumn(name = "USERNAME")
     )
     @Column(name = "GROUPNAME")
@@ -75,23 +79,6 @@ public class User implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Setter und Getter">
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String id) {
-        this.username = id;
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
-    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Passwort setzen und prüfen">
     /**

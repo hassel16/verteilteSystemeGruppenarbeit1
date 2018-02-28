@@ -21,11 +21,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Kategorien, die den Aufgaben zugeordnet werden können.
  */
 @Entity
+@Getter
+@Setter
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,31 +55,4 @@ public class Category implements Serializable {
         this.name = name;
     }
     //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Setter und Getter">
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
-    //</editor-fold>
-
 }

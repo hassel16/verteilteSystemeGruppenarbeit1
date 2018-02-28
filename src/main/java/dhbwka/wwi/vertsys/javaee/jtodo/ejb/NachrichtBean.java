@@ -19,7 +19,7 @@ import javax.annotation.security.RolesAllowed;
  */
 
 @Stateless
-@RolesAllowed("todo-app-user")
+@RolesAllowed("youbuy-app-user")
 public class NachrichtBean extends EntityBean<Nachricht, Long>{
     public NachrichtBean() {
         super(Nachricht.class);

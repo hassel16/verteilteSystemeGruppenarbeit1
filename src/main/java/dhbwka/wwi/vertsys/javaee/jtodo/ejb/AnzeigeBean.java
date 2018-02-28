@@ -24,7 +24,7 @@ import javax.persistence.criteria.Root;
  * @author METELC
  */
 @Stateless
-@RolesAllowed("todo-app-user")
+@RolesAllowed("youbuy-app-user")
 public class AnzeigeBean extends EntityBean<Anzeige, Long> {
     public AnzeigeBean() {
         super(Anzeige.class);

@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
 import javax.persistence.OneToOne;
 import javax.persistence.ManyToOne;
@@ -37,16 +38,18 @@ public class Nachricht implements Serializable{
     private int id;
     
     @ManyToOne
-    @Column(name="Von Benutzer")
+    @JoinColumn(name="Von Benutzer")
     @NotNull(message = "Der VonBenutzer darf nicht leer sein.")
     private Benutzer vonBenutzer;
                
     @ManyToOne
-    @Column(name="An Benutzer")
+    @JoinColumn(name="An Benutzer")
     @NotNull(message = "Der VonBenutzer darf nicht leer sein.")
     private Benutzer anBenutzer;        
     
     @Column(name="Text")
     @NotNull(message = "Der Text darf nicht leer sein.")
     private String text;
+    
+    public Nachricht(){}
 }

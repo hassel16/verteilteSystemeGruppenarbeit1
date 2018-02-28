@@ -21,7 +21,7 @@ import javax.ejb.Stateless;
  * @author METELC
  */
 @Stateless
-@RolesAllowed("todo-app-user")
+@RolesAllowed("youbuy-app-user")
 public class KategorieBean extends EntityBean<Kategorie, Long>{
     public KategorieBean() {
         super(Kategorie.class);
