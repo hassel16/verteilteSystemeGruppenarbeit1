@@ -41,9 +41,10 @@ public class SignUpServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //durch edit wird das 2. Passwortfeld freigeschaltet
         request.setAttribute("edit", false);
 
-        // Anfrage an dazugerhörige JSP weiterleiten
+        // Anfrage an dazugerhörige JSP weiterleiten, der Nutzer kann dort seine Daten zur Registrierung eingeben
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/login/signup.jsp");
         dispatcher.forward(request, response);
 
@@ -56,7 +57,7 @@ public class SignUpServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Formulareingaben auslesen
+        // Formulareingaben aus WEB-INF/login/signup.jsp auslesen
         request.setCharacterEncoding("utf-8");
         List<String> error = new ArrayList<>();
 
@@ -76,7 +77,8 @@ public class SignUpServlet extends HttpServlet {
             }
             nachname = name_array[name_array.length - 1];
         }
-
+        //Erhalte die anderen Daten.  (Wenn man es wirklich mit einem Feld für Hausnummer und Straße realisieren möchte:
+        /*
         String anschrift = request.getParameter("signup_strasse");
         String[] anschrift_array = anschrift.split(" ");
         String strasse = "";
@@ -89,17 +91,19 @@ public class SignUpServlet extends HttpServlet {
                 strasse += " " + anschrift_array[i];
             }
             hausnummer = anschrift_array[anschrift_array.length - 1];
-        }
+        }*/
+        String hausnummer = request.getParameter("signup_hausnummer");
+        String strasse = request.getParameter("signup_strasse");        
         String postleitzahl = request.getParameter("signup_postleitzahl");
         String ort = request.getParameter("signup_ort");
         String land = request.getParameter("signup_land");
         String eMail = request.getParameter("signup_eMail");
         if (!EmailValidator.getInstance().isValid(eMail)) {
-            error.add("Die angegebene E-Mail Adresse ist nicht gültig");
+            error.add("Die angegebene E-Mail Adresse ist ungültig");
         }
         String telefonnummer = request.getParameter("signup_telefonnummer");
 
-        // Eingaben prüfen
+        // Eingaben prüfen unter Nutzung des Validation Bean
         Benutzer user = new Benutzer(username, password1, vorname, nachname, strasse, hausnummer, postleitzahl, ort, land, eMail, telefonnummer);
         List<String> errors = this.validationBean.validate(user);
         if (!error.equals("")) {
@@ -108,7 +112,7 @@ public class SignUpServlet extends HttpServlet {
         this.validationBean.validate(user.getPasswort(), errors);
 
         if (password1 != null && password2 != null && !password1.equals(password2)) {
-            errors.add("Die beiden Passwörter stimmen nicht überein.");
+            errors.add("Die Passwörter müssen übereinstimmen.");
         }
 
         // Neuen Benutzer anlegen
@@ -126,7 +130,7 @@ public class SignUpServlet extends HttpServlet {
             request.login(username, password1);
             response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
         } else {
-            // Fehler: Formuler erneut anzeigen
+            // Fehler: Formuler erneut anzeigen, Daten in Input-Feldern lassen
             FormValues formValues = new FormValues();
             formValues.setValues(request.getParameterMap());
             formValues.setErrors(errors);

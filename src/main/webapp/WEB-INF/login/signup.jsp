@@ -114,12 +114,13 @@
                         <input type="text" name="signup_name" value="${signup_form.values["signup_name"][0]}">
                     </div>
 
-                    <label for="signup_strasse">
+                    <label for="signup_strasse_hausnummer">
                         Straße und Hausnummer: 
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
                         <input type="text" name="signup_strasse" value="${signup_form.values["signup_strasse"][0]}">
+                        <input type="text" name="signup_hausnummer" value="${signup_form.values["signup_hausnummer"][0]}">
                     </div>
 
                     <label for="signup_plzort">

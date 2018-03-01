@@ -29,6 +29,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import web.WebUtils;
+import java.util.ArrayList;
 
 /**
  *
@@ -73,6 +74,9 @@ public class Anzeige implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "Die Anzeige muss einem Benutzer zugeordnet werden.")
     private Benutzer benutzer;
+    
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy="gemerkteAnzeigen")
+    private List<Benutzer> interessierte=new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Kategorie kategorie;

@@ -76,5 +76,6 @@ public class AnzeigeBean  extends EntityBean<Anzeige, Long> {
         
         return em.createQuery(query).getResultList();
     }
+  
     
 }

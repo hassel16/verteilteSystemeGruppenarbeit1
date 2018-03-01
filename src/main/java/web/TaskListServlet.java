@@ -10,18 +10,23 @@
 package web;
 
 import beans.AnzeigeBean;
+import beans.BenutzerBean;
 import beans.KategorieBean;
 import entities.Anzeige;
+import entities.Benutzer;
 import entities.ArtDerAnzeige;
 import entities.Kategorie;
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Locale;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet für die Startseite bzw. jede Seite, die eine Liste der Aufgaben
@@ -35,6 +40,9 @@ public class TaskListServlet extends HttpServlet {
     
     @EJB
     private AnzeigeBean anzeigeBean;
+    
+    @EJB
+    BenutzerBean userBean;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -69,11 +77,59 @@ public class TaskListServlet extends HttpServlet {
             }
 
         }
-
-        List<Anzeige> anzeige = this.anzeigeBean.search(searchText, category, art);
+ 
+        
+        List<Anzeige> anzeige= this.anzeigeBean.search(searchText, category, art);
+        /*if(nurGemerkte){
+            List<Anzeige> gemerkte= this.userBean.getCurrentUser().getGemerkteAnzeigen();
+            List<Anzeige> ausgabe=new ArrayList<>();
+            for(int i=0; i<gemerkte.size();i++){
+                if(anzeige.contains(gemerkte.get(i))){
+                    ausgabe.add(gemerkte.get(i));
+                }
+            }
+            request.setAttribute("tasks", ausgabe);
+        } */
         request.setAttribute("tasks", anzeige);
 
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/task_list.jsp").forward(request, response);
     }
+    
+    
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Formulareingaben aus WEB-INF/login/signup.jsp auslesen
+        
+            request.setCharacterEncoding("utf-8");
+            String i=request.getParameter("task_id_favorisieren");
+            
+            long task_id = Long.parseUnsignedLong(i);
+            System.out.println("--------");
+            HttpSession session = request.getSession();
+            Benutzer benutzer= this.userBean.getCurrentUser();
+            List<Anzeige> gemerkte=benutzer.getGemerkteAnzeigen();
+            boolean bereitsGemerkt=false;
+            for(int j=0;j<gemerkte.size();j++){
+                System.out.println("--------");
+                if(gemerkte.get(j).getId()==task_id){
+                    bereitsGemerkt=true;
+                    break;
+                }
+            }
+            System.out.println("---"+bereitsGemerkt);
+            if(!bereitsGemerkt){
+                 System.out.println("---"+this.anzeigeBean.findById(task_id).getId());
+                 System.out.println("---"+userBean.getCurrentUser().getBenutzername());
+                 
+                benutzer.getGemerkteAnzeigen().add(this.anzeigeBean.findById(task_id));
+                this.userBean.update(benutzer);
+            }
+            
+            response.sendRedirect(request.getRequestURI());
+        
+    }
+    
 }

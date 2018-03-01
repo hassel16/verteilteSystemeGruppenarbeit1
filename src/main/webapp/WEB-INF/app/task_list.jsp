@@ -24,6 +24,9 @@
 
     <jsp:attribute name="menu">
         <div class="menuitem">
+            <a href="<c:url value="/app/favoritetasks/"/>">Favoritenübersicht</a>
+        </div>
+        <div class="menuitem">
             <a href="<c:url value="/app/task/new/"/>">Angebot anlegen</a>
         </div>
 
@@ -60,7 +63,6 @@
                     </option>
                 </c:forEach>
             </select>
-
             <button class="icon-search" type="submit">
                 Suchen
             </button>
@@ -86,14 +88,18 @@
                             <th>Preis</th>
                             <th>Preistyp</th>
                             <th>Datum</th>
+                            <th>Merken</th>
                         </tr>
                     </thead>
                     <c:forEach items="${tasks}" var="task">
                         <tr>
+                            <form method="post" class="stacked">
                             <td>
                                 <a href="<c:url value="/app/task/${task.id}/"/>">
                                     <c:out value="${task.titel}"/>
                                 </a>
+                                <input type="hidden" name="csrf_token" value="${csrf_token}">
+                                <input type="hidden" name="task_id_favorisieren" value="${task.id}">
                             </td>
                             <td>
                                 <c:out value="${task.kategorie.name}"/>
@@ -113,6 +119,12 @@
                             <td>
                                 <c:out value="${task.formatEinstellungsdatum()}"/>
                             </td>
+                            <td>
+                                <button class="icon-th" type="submit">
+                                    
+                                </button>
+                            </td>
+                            </form>
                         </tr>
                     </c:forEach>
                 </table>
