@@ -79,7 +79,7 @@ public class TaskListServlet extends HttpServlet {
             }
         }
         
-        //Prüfen ob eine Preisart mitgegeben/ausgewählt wurde, wenn nicht wird die Variable "genullt"
+        //Prüfen ob es eine Preisart gibt die mitgegeben/ausgewählt wurde, wenn nicht wird die Variable "genullt"
         if (searchPreisArt != null) {
             try {
                 preisart = ArtDesPreises.valueOf(searchPreisArt);
