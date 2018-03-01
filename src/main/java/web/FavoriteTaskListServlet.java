@@ -16,6 +16,7 @@ import entities.Anzeige;
 import entities.Benutzer;
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,9 +44,20 @@ public class FavoriteTaskListServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        //Liste 
+        List<Anzeige> anzeige=new ArrayList<>();
         // Die Gemerkten Anzeigen des Nutzers aus der Datenbank auslesen.
-        List<Anzeige> anzeige= this.userBean.getCurrentUser().getGemerkteAnzeigen();
+        List<Anzeige> gemerkte= this.userBean.getCurrentUser().getGemerkteAnzeigen();
+        //Prüfen ob die gemerkten Anzeigen wirklich noch als Daten existieren. Es kann sein, dass eine Anzeige nach dem löschen
+        //nicht mehr in der Datenbank vorhanden ist, aber als Java Objekt noch existiert. Damit diese in der Datenbank nicht mehr 
+        //vertretenen Anzeigen gelöscht werden, wurde hier der Algorithmus eingeführt:
+        for(int i=0; i<gemerkte.size(); i++){
+            if(anzeigeBean.findById(gemerkte.get(i).getId())!=null)
+                anzeige.add(gemerkte.get(i));
+            else
+                gemerkte.remove(i);
+        }
+        
         //Die Anzeigen der Request anhängen
         request.setAttribute("tasks", anzeige);
 
