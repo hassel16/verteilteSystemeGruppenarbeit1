@@ -21,7 +21,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,6 +36,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@Table(name = "YOUBUY_USER")
 public class Benutzer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,8 +54,8 @@ public class Benutzer implements Serializable {
     @Column(name="Nacnhame")
     @NotNull(message = "Der Nachname darf nicht leer sein.")
     private String nachname;
-    @Column(name="Straße")
-    private String straße;
+    @Column(name="Street")
+    private String street;
     @Column(name="Hausnummer")
     private String hausnummer;
     @Column(name="Postleitzahl")
@@ -62,19 +65,20 @@ public class Benutzer implements Serializable {
     @Column(name="Land")
     private String land;
     @Column(name="E-Mail")
+    @Pattern(regexp = "^\\w+@\\w+\\..{2,3}(.{2,3})?$")
     @NotNull(message = "Die E-Mail darf nicht leer sein.")
     private String email;
     @Column(name="Telefonnummer")
         @Size(min = 3, max = 30, message = "Die Telefonnummer muss zwischen drei und 30 Zeichen lang sein.")
-    private int telefonnummer;
+    private String telefonnummer;
     
     @OneToMany
     private List<Nachricht> nachrichten = new ArrayList();
     @ManyToMany
-    private List<Anzeige> gemerkteAnzeigen = new ArrayList();
-    //@OneToMany(mappedBy="besitzer")
-    @OneToMany
-    private List<Anzeige> veroeffentlichteAnzeigen = new ArrayList();
+    private Anzeigenliste gemerkteAnzeigen = new Anzeigenliste();
+
+    @OneToMany(mappedBy="besitzer")
+    private Anzeigenliste veroeffentlichteAnzeigen = new Anzeigenliste();
     
     
     
@@ -83,12 +87,12 @@ public class Benutzer implements Serializable {
     public Benutzer() {
     }
 
-    public Benutzer(String benutzername, String passwortHash, String vorname, String nachname, String straße, String hausnummer, int plz, String ort, String land, String email, int telefonnummer, String name) {
+    public Benutzer(String benutzername, String passwortHash, String vorname, String nachname, String street, String hausnummer, int plz, String ort, String land, String email, String telefonnummer) {
         this.benutzername = benutzername;
         this.passwortHash = passwortHash;
         this.vorname = vorname;
         this.nachname = nachname;
-        this.straße = straße;
+        this.street = street;
         this.hausnummer = hausnummer;
         this.plz = plz;
         this.ort = ort;
@@ -101,16 +105,22 @@ public class Benutzer implements Serializable {
     
     //</editor-fold>
 
-    
-    //</editor-fold>
-    
-    
-
-    public Benutzer(String benutzername, String passwortHash) {
-        this.benutzername = benutzername;
-        this.passwortHash = passwortHash;
+    //<editor-fold defaultstate="collapsed" desc="Passwortaufgaben">
+    /**
+     * Berechnet einen Hashwert aus dem übergebenen Passwort und legt ihn im
+     * Feld passwordHash ab. Somit wird das Passwort niemals als Klartext
+     * gespeichert.
+     *
+     * Gleichzeitig wird das Passwort im nicht gespeicherten Feld password
+     * abgelegt, um durch die Bean Validation Annotationen überprüft werden
+     * zu können.
+     *
+     * @param password Neues Passwort
+     */
+    public void setPasswordHash(String password) {
+        this.passwortHash = this.hashPassword(password);
     }
-    
+
     public boolean checkPasswort(String passwort){
         return this.passwortHash.equals(this.hashPassword(passwort));
     }
@@ -133,6 +143,5 @@ public class Benutzer implements Serializable {
         BigInteger bigInt = new BigInteger(1, hash);
         return bigInt.toString(16);
      }
-     
-    
+    //</editor-fold>
 }

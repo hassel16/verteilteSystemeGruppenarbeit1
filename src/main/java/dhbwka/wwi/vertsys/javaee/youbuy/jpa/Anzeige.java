@@ -9,11 +9,17 @@
  */
 package dhbwka.wwi.vertsys.javaee.youbuy.jpa;
 
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.enums.AnzeigeStatus;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.enums.AnzeigenArt;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.enums.PreisArt;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -45,10 +51,9 @@ public class Anzeige implements Serializable {
     @TableGenerator(name = "anzeige_ids", initialValue = 0, allocationSize = 50)
     private long id;
     
-    @NotNull(message = "Die Art darf nicht leer sein.")
-    @Column(name="Art(Angebot oder Gesuch)")
-    @Size(min = 3, max = 25, message = "Die Art muss zwischen drei und 30 Zeichen lang sein.")
-    private String art;
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private AnzeigenArt art;
     
     @Column(name="Titel")
     @NotNull(message = "Der Titel darf nicht leer sein.")
@@ -61,59 +66,54 @@ public class Anzeige implements Serializable {
     
     @Column(name="Erstellungsdatum")
     @NotNull(message="Es muss ein Zeitpunkt der Erstellung festgelegt sein.")
-    private long creationDate;
-    
-    @Column(name="Online bis")
-    @NotNull (message="Es muss ein Ende der Anzeige festgelegt sein.")
-    private long onlineBis;
+    private LocalDateTime creationDateTime;
     
     @Column(name="Preisvorstellung")
     @NotNull(message = "Die Preisvorstellung darf nicht leer sein.")
     private double preisVorstellung;
     
-    @Column(name="Art des Preises")
-    private String preisArt;
-    
-    @Column(name="Postleitzahl")
-    private int plz;
-    
-    @Column(name="Ort")
-    private String ort;
-    
-    //@ManyToMany(mappedBy = "gemerkteAnzeigen", fetch = FetchType.LAZY)
-    //List<Benutzer> interessierte = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private PreisArt preisArt;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private AnzeigeStatus anzeigeStatus;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private AnzeigenArt anzeigenArt;
+
+    @ManyToMany(mappedBy = "gemerkteAnzeigen", fetch = FetchType.LAZY)
+    List<Benutzer> interessierte = new ArrayList<>();
        
-    //@ManyToOne(fetch=FetchType.EAGER)
-    //@NotNull(message="Die Anzeige muss einem Besitzer zugeordnet sein.")
-    //private Benutzer besitzer;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @NotNull(message="Die Anzeige muss einem Besitzer zugeordnet sein.")
+    private Benutzer besitzer;
     
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.EAGER)
     @NotNull(message="Die Anzeige muss eine Kategorie beinhalten.")
-    private List<Kategorie> kategorien = new ArrayList<>();
+    private Kategorie kategorie;
     
-    //@OneToMany (mappedBy="anzeige")
-    @OneToMany
+    @OneToMany (mappedBy="anzeige")
     private List<Foto> fotos = new ArrayList<>();
     
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
-
-    public Anzeige(long id, String art, String titel, String beschreibung, long creationDate, long onlineBis, double preisVorstellung, String preisArt, int plz, String ort) {
+    public Anzeige(long id, AnzeigenArt art, String titel, String beschreibung, LocalDateTime creationDate, double preisVorstellung, PreisArt preisArt,AnzeigenArt anzeigenArt,AnzeigeStatus anzeigeStatus, Kategorie kategorie,Benutzer besitzer) {
         this.id = id;
         this.art = art;
         this.titel = titel;
         this.beschreibung = beschreibung;
-        this.creationDate = creationDate;
-        this.onlineBis = onlineBis;
+        this.creationDateTime = creationDate;
         this.preisVorstellung = preisVorstellung;
         this.preisArt = preisArt;
-        this.plz = plz;
-        this.ort = ort;
-       // this.besitzer = besitzer;
+        this.anzeigenArt =anzeigenArt;
+        this.anzeigeStatus = anzeigeStatus;
+        this.kategorie = kategorie;
+        this.besitzer = besitzer;
     }
    
-
-
     public Anzeige() {
     }
-
+    //</editor-fold>
 }

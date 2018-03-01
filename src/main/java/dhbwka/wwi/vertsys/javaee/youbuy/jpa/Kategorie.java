@@ -10,11 +10,7 @@
 package dhbwka.wwi.vertsys.javaee.youbuy.jpa;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.ArrayList;
@@ -45,6 +41,14 @@ public class Kategorie implements Serializable {
     @OneToMany //Steht so im ER Diagramm
     @JoinColumn(name="slug")
     private List<Kategorie> elternKategorie = new ArrayList<>();
-    
-    Kategorie(){}
+
+    @OneToMany(mappedBy="kategorie" , fetch = FetchType.LAZY)
+    private List<Anzeige> anzeigen = new ArrayList<>();
+
+    public Kategorie(){}
+
+    public Kategorie(String name){
+        slug = name;
+        name = name;
+    }
 }

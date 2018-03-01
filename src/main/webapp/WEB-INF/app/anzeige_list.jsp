@@ -80,25 +80,25 @@
                             <th>Fällig am</th>
                         </tr>
                     </thead>
-                    <c:forEach items="${tasks}" var="task">
+                    <c:forEach items="${anzeigen}" var="anzeige">
                         <tr>
                             <td>
-                                <a href="<c:url value="/app/task/${task.id}/"/>">
-                                    <c:out value="${task.shortText}"/>
+                                <a href="<c:url value="/app/anzeige/${task.id}/"/>">
+                                    <c:out value="${anzeige.shortText}"/>
                                 </a>
                             </td>
                             <td>
-                                <c:out value="${task.category.name}"/>
+                                <c:out value="${anzeige.category.name}"/>
                             </td>
                             <td>
-                                <c:out value="${task.owner.username}"/>
+                                <c:out value="${anzeige.owner.username}"/>
                             </td>
                             <td>
-                                <c:out value="${task.status.label}"/>
+                                <c:out value="${anzeige.status.label}"/>
                             </td>
                             <td>
-                                <c:out value="${utils.formatDate(task.dueDate)}"/>
-                                <c:out value="${utils.formatTime(task.dueTime)}"/>
+                                <c:out value="${utils.formatDate(anzeige.dueDate)}"/>
+                                <c:out value="${utils.formatTime(anzeige.dueTime)}"/>
                             </td>
                         </tr>
                     </c:forEach>

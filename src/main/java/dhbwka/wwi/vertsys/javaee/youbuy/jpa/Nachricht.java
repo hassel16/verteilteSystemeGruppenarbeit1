@@ -38,12 +38,12 @@ public class Nachricht implements Serializable{
     private int id;
     
     @ManyToOne
-    @JoinColumn(name="Von Benutzer")
+    @JoinColumn(name="Von_Benutzer")
     @NotNull(message = "Der VonBenutzer darf nicht leer sein.")
     private Benutzer vonBenutzer;
                
     @ManyToOne
-    @JoinColumn(name="An Benutzer")
+    @JoinColumn(name="An_Benutzer")
     @NotNull(message = "Der VonBenutzer darf nicht leer sein.")
     private Benutzer anBenutzer;        
     

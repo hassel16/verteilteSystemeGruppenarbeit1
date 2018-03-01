@@ -13,6 +13,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 public class WebUtils {
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
+    public static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     
     /**
      * Stellt sicher, dass einer URL der Kontextpfad der Anwendung vorangestellt
@@ -40,7 +44,7 @@ public class WebUtils {
      * @param date Datum
      * @return String für die Ausgabe
      */
-    public static String formatDate(Date date) {
+    public static String formatDate(LocalDate date) {
         return DATE_FORMAT.format(date);
     }
     
@@ -49,8 +53,17 @@ public class WebUtils {
      * @param time Uhrzeit
      * @return String für die Ausgabe
      */
-    public static String formatTime(Time time) {
+    public static String formatTime(LocalTime time) {
         return TIME_FORMAT.format(time);
+    }
+
+    /**
+     * Formatiert eine DatumUhrzeit für die Ausgabe, z.B. 11:50:00
+     * @param time Uhrzeit
+     * @return String für die Ausgabe
+     */
+    public static String formatDateTime(LocalDateTime time) {
+        return DATETIME_FORMAT.format(time);
     }
     
     /**
@@ -58,11 +71,11 @@ public class WebUtils {
      * @param input Eingegebener String
      * @return Datumsobjekt oder null bei einem Fehler
      */
-    public static Date parseDate(String input) {
+    public static LocalDate parseDate(String input) {
         try {
-            java.util.Date date = DATE_FORMAT.parse(input);
-            return new Date(date.getTime());
-        } catch (ParseException ex) {
+            LocalDate date = LocalDate.parse(input);
+            return date;
+        } catch (Exception ex) {
             return null;
         }
     }
@@ -72,11 +85,25 @@ public class WebUtils {
      * @param input Eingegebener String
      * @return Uhrzeitobjekt oder null bei einem Fehler
      */
-    public static Time parseTime(String input) {
+    public static LocalTime parseTime(String input) {
         try {
-            java.util.Date date = TIME_FORMAT.parse(input);
-            return new Time(date.getTime());
-        } catch (ParseException ex) {
+            LocalTime time = LocalTime.parse(input);
+            return time;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    /**
+     * Erzeugt ein DatumUhrzeitobjekt aus dem übergebenen String, z.B. 11.12.2001 09:20:00
+     * @param input Eingegebener String
+     * @return Uhrzeitobjekt oder null bei einem Fehler
+     */
+    public static LocalDateTime parseDateTime(String input) {
+        try {
+            LocalDateTime time = LocalDateTime.parse(input);
+            return time;
+        } catch (Exception ex) {
             return null;
         }
     }

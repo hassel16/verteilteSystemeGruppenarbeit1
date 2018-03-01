@@ -9,11 +9,9 @@
  */
 package dhbwka.wwi.vertsys.javaee.youbuy.web;
 
-import dhbwka.wwi.vertsys.javaee.youbuy.ejb.CategoryBean;
-import dhbwka.wwi.vertsys.javaee.youbuy.ejb.TaskBean;
-import dhbwka.wwi.vertsys.javaee.youbuy.ejb.ValidationBean;
-import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Category;
-import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Task;
+import dhbwka.wwi.vertsys.javaee.youbuy.ejb.*;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Anzeige;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Kategorie;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -34,10 +32,10 @@ import javax.servlet.http.HttpSession;
 public class CategoryListServlet extends HttpServlet {
 
     @EJB
-    CategoryBean categoryBean;
+    KategorieBean categoryBean;
     
     @EJB
-    TaskBean taskBean;
+    AnzeigeBean taskBean;
 
     @EJB
     ValidationBean validationBean;
@@ -47,7 +45,7 @@ public class CategoryListServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Alle vorhandenen Kategorien ermitteln
-        request.setAttribute("categories", this.categoryBean.findAllSorted());
+        request.setAttribute("categories", this.categoryBean.findAll());
 
         // Anfrage an dazugerhörige JSP weiterleiten
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/app/category_list.jsp");
@@ -95,7 +93,7 @@ public class CategoryListServlet extends HttpServlet {
         // Formulareingaben prüfen
         String name = request.getParameter("name");
 
-        Category category = new Category(name);
+        Kategorie category = new Kategorie(name);
         List<String> errors = this.validationBean.validate(category);
 
         // Neue Kategorie anlegen
@@ -137,7 +135,7 @@ public class CategoryListServlet extends HttpServlet {
         // Kategorien löschen
         for (String categoryId : categoryIds) {
             // Zu löschende Kategorie ermitteln
-            Category category;
+            Kategorie category;
 
             try {
                 category = this.categoryBean.findById(Long.parseLong(categoryId));
@@ -150,8 +148,8 @@ public class CategoryListServlet extends HttpServlet {
             }
             
             // Bei allen betroffenen Aufgaben, den Bezug zur Kategorie aufheben
-            category.getTasks().forEach((Task task) -> {
-                task.setCategory(null);
+            category.getAnzeigen().forEach((Anzeige task) -> {
+                task.setKategorie(null);
                 this.taskBean.update(task);
             });
             

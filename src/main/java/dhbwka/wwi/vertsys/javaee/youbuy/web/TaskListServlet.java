@@ -9,11 +9,9 @@
  */
 package dhbwka.wwi.vertsys.javaee.youbuy.web;
 
+import dhbwka.wwi.vertsys.javaee.youbuy.ejb.AnzeigeBean;
 import dhbwka.wwi.vertsys.javaee.youbuy.ejb.CategoryBean;
 import dhbwka.wwi.vertsys.javaee.youbuy.ejb.TaskBean;
-import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Category;
-import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Task;
-import dhbwka.wwi.vertsys.javaee.youbuy.jpa.TaskStatus;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -27,14 +25,14 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet für die Startseite bzw. jede Seite, die eine Liste der Aufgaben
  * zeigt.
  */
-@WebServlet(urlPatterns = {"/app/tasks/"})
+@WebServlet(urlPatterns = {"/app/anzeige/"})
 public class TaskListServlet extends HttpServlet {
 
     @EJB
-    private CategoryBean categoryBean;
+    private KategorieBean categoryBean;
     
     @EJB
-    private TaskBean taskBean;
+    private AnzeigeBean taskBean;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -74,6 +72,6 @@ public class TaskListServlet extends HttpServlet {
         request.setAttribute("tasks", tasks);
 
         // Anfrage an die JSP weiterleiten
-        request.getRequestDispatcher("/WEB-INF/app/task_list.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/app/anzeige_list.jsp").forward(request, response);
     }
 }

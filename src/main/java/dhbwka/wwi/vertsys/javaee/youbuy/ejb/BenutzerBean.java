@@ -49,23 +49,47 @@ public class BenutzerBean {
      *
      * @param benutzername
      * @param passwort
-     * @throws UserBean.UserAlreadyExistsException
+     * @param vorname
+     * @param nachname
+     * @param street
+     * @param hausnummer
+     * @param plz
+     * @param ort
+     * @param land
+     * @param email
+     * @param telefonnummer
+     * @throws dhbwka.wwi.vertsys.javaee.youbuy.ejb.BenutzerBean.UserAlreadyExistsException
      */
-    public void signup(String benutzername, String passwort) throws UserAlreadyExistsException {
+    public void signup(String benutzername, String passwort,String vorname, String nachname, String street, String hausnummer, int plz, String ort, String land, String email, String telefonnummer) throws UserAlreadyExistsException {
         if (em.find(Benutzer.class, benutzername) != null) {
             throw new UserAlreadyExistsException("Der Benutzername $B ist bereits vergeben.".replace("$B", benutzername));
         }
 
-        Benutzer benutzer = new Benutzer(benutzername, passwort);
-         em.persist(benutzer);
+        Benutzer benutzer = new Benutzer(benutzername, passwort,vorname,nachname,street,hausnummer,plz,ort,land,email,telefonnummer);
+        em.persist(benutzer);
     }
+    
+    
+     /**
+     *
+     * @param Benutzer
+     * @throws dhbwka.wwi.vertsys.javaee.youbuy.ejb.BenutzerBean.UserAlreadyExistsException
+     */
+    public void signup(Benutzer benutzer) throws UserAlreadyExistsException {
+        if (em.find(Benutzer.class, benutzer.getBenutzername()) != null) {
+            throw new UserAlreadyExistsException("Der Benutzername $B ist bereits vergeben.".replace("$B", benutzer.getBenutzername()));
+        }
+
+        em.persist(benutzer);
+    }
+    
 
     /**
      *
      * @param benutzername
      * @param altPasswort
      * @param neuPasswort
-     * @throws UserBean.InvalidCredentialsException
+     * @throws dhbwka.wwi.vertsys.javaee.youbuy.ejb.BenutzerBean.InvalidCredentialsException
      */
     @RolesAllowed("youbuy-app-user")
     public void changePassword(String benutzername, String altPasswort, String neuPasswort) throws InvalidCredentialsException {
@@ -95,6 +119,16 @@ public class BenutzerBean {
     public class InvalidCredentialsException extends Exception {
 
         public InvalidCredentialsException(String message) {
+            super(message);
+        }
+    }
+    
+     /**
+     * Fehler: Die übergebene PLZ ist keine Zahl
+     * überein
+     */
+    public class InvalidPLZException extends IllegalArgumentException {
+        public InvalidPLZException(String message) {
             super(message);
         }
     }

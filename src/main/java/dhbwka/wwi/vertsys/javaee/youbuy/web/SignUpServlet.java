@@ -9,10 +9,13 @@
  */
 package dhbwka.wwi.vertsys.javaee.youbuy.web;
 
+import dhbwka.wwi.vertsys.javaee.youbuy.ejb.BenutzerBean;
+import dhbwka.wwi.vertsys.javaee.youbuy.ejb.BenutzerBean.InvalidPLZException;
+import dhbwka.wwi.vertsys.javaee.youbuy.ejb.BenutzerBean.UserAlreadyExistsException;
 import dhbwka.wwi.vertsys.javaee.youbuy.ejb.ValidationBean;
-import dhbwka.wwi.vertsys.javaee.youbuy.ejb.UserBean;
-import dhbwka.wwi.vertsys.javaee.youbuy.jpa.User;
+import dhbwka.wwi.vertsys.javaee.youbuy.jpa.Benutzer;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -34,7 +37,7 @@ public class SignUpServlet extends HttpServlet {
     ValidationBean validationBean;
             
     @EJB
-    UserBean userBean;
+    BenutzerBean benutzerBean;
     
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -56,31 +59,29 @@ public class SignUpServlet extends HttpServlet {
         // Formulareingaben auslesen
         request.setCharacterEncoding("utf-8");
         
-        String username = request.getParameter("signup_username");
+        String benutzername = request.getParameter("signup_username");
         String password1 = request.getParameter("signup_password1");
         String password2 = request.getParameter("signup_password2");
-        
-        // Eingaben prüfen
-        User user = new User(username, password1);
-        List<String> errors = this.validationBean.validate(user);
-        
-        if (password1 != null && password2 != null && !password1.equals(password2)) {
-            errors.add("Die beiden Passwörter stimmen nicht überein.");
-        }
-        
-        // Neuen Benutzer anlegen
-        if (errors.isEmpty()) {
-            try {
-                this.userBean.signup(username, password1);
-            } catch (UserBean.UserAlreadyExistsException ex) {
-                errors.add(ex.getMessage());
-            }
-        }
-        
+        String vorname = request.getParameter("signup_vorname");
+        String nachname = request.getParameter("signup_name");
+        String streetnumber = request.getParameter("signup_street_number");
+        String street = request.getParameter("signup_street");
+        String plzcity = request.getParameter("signup_plz_city");
+        String ort = request.getParameter("signup_city");
+        String land = request.getParameter("signup_land");
+        String email = request.getParameter("signup_email");
+        String tel = request.getParameter("signup_tel");
+
+
+        List<String> errors = new ArrayList();
+        //Validiert alle Daten und logt ein wenn ok
+        InputCheck_Validate_SignUp(errors,benutzername, password1,password2,vorname,nachname,street,streetnumber,plzcity,ort,land,email,tel);
+
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
+            //Wenn keine Fehler dann login auf Server
+            request.login(benutzername, password1);
             // Keine Fehler: Startseite aufrufen
-            request.login(username, password1);
             response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
         } else {
             // Fehler: Formuler erneut anzeigen
@@ -95,4 +96,29 @@ public class SignUpServlet extends HttpServlet {
         }
     }
     
+     /**
+     *  Prüft ob es Fehler gab bei der Eingabe w
+     */
+       private void InputCheck_Validate_SignUp(List<String> errors, String benutzername, String password1, String password2, String vorname, String nachname, String street, String hausnummer, String plz, String ort, String land, String email, String telefonnummer){
+            if (password1 != null && password2 != null && !password1.equals(password2)) {
+                errors.add("Die beiden Passwörter stimmen nicht überein.");
+            }
+            try {
+                //Fängt Exception wenn bei plz ein String kommt
+                int plzAsInt=Integer.parseInt(plz);
+                Benutzer user = new Benutzer(benutzername,password1,vorname,nachname,street,hausnummer,plzAsInt,ort,land,email,telefonnummer);
+                errors.addAll(validationBean.validate(user));
+                //Neuen Benutzer anlegen
+                if (errors.isEmpty()) {
+                    try {
+                        this.benutzerBean.signup(user);
+                    } catch (UserAlreadyExistsException ex) {
+                        errors.add(ex.getMessage());
+                    }
+                }
+            } catch (InvalidPLZException ex) {
+                errors.add("Die eingegebene Postleitzahl ist keine Zahl.");
+            }
+        }
+
 }

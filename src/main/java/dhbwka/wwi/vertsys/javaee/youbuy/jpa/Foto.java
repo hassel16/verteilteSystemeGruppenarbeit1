@@ -41,6 +41,7 @@ public class Foto implements Serializable {
     @NotNull(message = "Die Bezeichnung darf nicht leer sein.")
     private String bezeichnung;
     
+    //Link zu Bild und dann Lob weil Link vllt zu lange
     @Column(name="Bilddaten")
     private String bilddaten;
     
