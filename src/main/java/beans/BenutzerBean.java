@@ -9,7 +9,6 @@
  */
 package beans;
 
-import entities.Anzeige;
 import entities.Benutzer;
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;

@@ -17,12 +17,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,13 +29,10 @@ import lombok.EqualsAndHashCode;
 import web.WebUtils;
 import java.util.ArrayList;
 
-/**
- *
- * @author FSche
- */
+
 @Entity
 @Data
-@EqualsAndHashCode(exclude = {"benutzer", "list_benutzer", "kategorie"})
+@EqualsAndHashCode(exclude = {"benutzer", "kategorie"})
 public class Anzeige implements Serializable {
 
     private static final long serialVersionUID = 1L;

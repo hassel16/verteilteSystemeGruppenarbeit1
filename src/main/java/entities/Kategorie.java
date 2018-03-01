@@ -19,10 +19,7 @@ import javax.persistence.TableGenerator;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- *
- * @author FSche
- */
+
 @Entity
 @Data
 @EqualsAndHashCode(exclude = "anzeigen")

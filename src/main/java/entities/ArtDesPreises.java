@@ -5,10 +5,7 @@
  */
 package entities;
 
-/**
- *
- * @author FSche
- */
+
 public enum ArtDesPreises {
     FESTPREIS, VERHANDLUNGSBASIS;
     public String getLabel() {
