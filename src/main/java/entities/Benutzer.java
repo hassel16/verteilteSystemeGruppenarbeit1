@@ -28,13 +28,12 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
 @Entity
 @Data
 @EqualsAndHashCode(exclude = {"anzeige"})
 @Table(name = "JYOUBUY_USER")
 public class Benutzer implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "USERNAME", length = 64)
@@ -45,45 +44,46 @@ public class Benutzer implements Serializable {
     @Column(name = "PASSWORD_HASH", length = 64)
     @NotNull(message = "Das Passwort darf nicht leer sein.")
     private String passwortHash;
-    
+
     @Size(min = 1, max = 64, message = "Der Vorname muss zwischen zwei und 64 Zeichen lang sein.")
     @NotNull(message = "Der Vorname darf nicht leer sein.")
     private String vorname;
-    
+
     @Size(min = 1, max = 64, message = "Der Nachname muss zwischen zwei und 64 Zeichen lang sein.")
     @NotNull(message = "Der Nachname darf nicht leer sein.")
     private String nachname;
-    
+
     @Size(min = 1, max = 64, message = "Die Straße muss zwischen zwei und 64 Zeichen lang sein.")
     @NotNull(message = "Die Straße darf nicht leer sein.")
     private String strasse;
-    
+
+    //String weil zb 2a auch mgl ist
     @NotNull(message = "Die Hausnummer darf nicht leer sein.")
-    private String hausnummer; //String weil zb 2a auch mgl ist
-    
+    private String hausnummer;
+
     @Size(min = 1, max = 10, message = "Die Postleitzahl muss zwischen drei und 10 Zeichen lang sein.")
     @NotNull(message = "Die Postleitzahl darf nicht leer sein.")
     private String postleitzahl;
-    
+
     @Size(min = 2, max = 64, message = "Der Ort muss zwischen zwei und 64 Zeichen lang sein.")
     @NotNull(message = "Der Ort darf nicht leer sein.")
     private String ort;
-    
+
     @Size(min = 1, max = 64, message = "Das Land muss zwischen zwei und 64 Zeichen lang sein.")
     @NotNull(message = "Das Land darf nicht leer sein.")
     private String land;
-    
+
     @Size(min = 5, max = 64, message = "Die E-Mail muss zwischen fünf und 64 Zeichen lang sein.")
     @NotNull(message = "Die E-Mail darf nicht leer sein.")
     private String email;
-    
+
     @Size(min = 5, max = 64, message = "Die Telefonnummer muss zwischen fünf und 64 Zeichen lang sein.")
     private String telefonnummer;
-    
+
     @Transient
     @Size(min = 6, max = 64, message = "Das Passwort muss zwischen sechs und 64 Zeichen lang sein.")
     private String passwort;
-    
+
     @ElementCollection
     @CollectionTable(
             name = "JYOUBUY_USER_GROUP",
@@ -94,12 +94,9 @@ public class Benutzer implements Serializable {
 
     @OneToMany(mappedBy = "benutzer", fetch = FetchType.LAZY)
     private List<Anzeige> anzeige;
-    
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Anzeige> gemerkteAnzeigen=new ArrayList<>();
 
-    public Benutzer() {
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Anzeige> gemerkteAnzeigen = new ArrayList<>();
 
     //<editor-fold defaultstate="collapsed" desc="Passwort setzen und prüfen">
     /**
@@ -189,6 +186,10 @@ public class Benutzer implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
+    public Benutzer() {
+    }
+
     public Benutzer(String benutzername, String password, String vorname, String nachname, String strasse, String hausnummer, String postleitzahl, String ort, String land, String eMail, String telefonnummer) {
         this.benutzername = benutzername;
         this.passwort = password;
@@ -203,6 +204,6 @@ public class Benutzer implements Serializable {
         this.email = eMail;
         this.telefonnummer = telefonnummer;
     }
-    
-    
+
+    //</editor-fold>
 }
