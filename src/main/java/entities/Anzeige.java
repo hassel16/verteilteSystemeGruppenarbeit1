@@ -60,7 +60,7 @@ public class Anzeige implements Serializable {
     private Time einstellungszeit;
 
     @Column(scale = 2)
-    private long preisvorstellung;
+    private double preisvorstellung;
 
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -75,9 +75,15 @@ public class Anzeige implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Kategorie kategorie;
+    
     //Für Ausgabe in Tasklist
     public String formatEinstellungsdatum(){
         return WebUtils.formatDate(this.getEinstellungsdatum());
+    }
+    
+    //Für Ausgabe in Tasklist
+    public String formatPreis(){
+        return WebUtils.formatDouble(this.getPreisvorstellung()) + " €";
     }
     
      //<editor-fold defaultstate="collapsed" desc="Getter und Setter für LocalDate und LocalTime mit Umrechnung">

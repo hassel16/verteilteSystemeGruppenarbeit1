@@ -147,7 +147,8 @@ public class TaskEditServlet extends HttpServlet {
         //Anpassen des Preises der Anzeige
         if (taskValue != null && !taskValue.trim().isEmpty()) {
             try {
-                task.setPreisvorstellung(Integer.parseInt(taskValue));
+                taskValue = taskValue.replace(",", "."); 
+                task.setPreisvorstellung(Double.parseDouble(taskValue));
             } catch (NumberFormatException ex) {
                 // Ungültige oder keine ID mitgegeben
             }
@@ -296,7 +297,7 @@ public class TaskEditServlet extends HttpServlet {
         });
 
         values.put("task_value", new String[]{
-            task.getPreisvorstellung() + ""
+            WebUtils.formatDouble(task.getPreisvorstellung()) + ""
         });
 
         FormValues formValues = new FormValues();

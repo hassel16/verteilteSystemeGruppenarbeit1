@@ -121,7 +121,7 @@
                                 <c:out value="${task.art}"/>
                             </td>
                             <td>
-                                <c:out value="${task.preisvorstellung}"/>
+                                <c:out value="${task.formatPreis()}"/>
                             </td>
                             <td>
                                 <c:out value="${task.artDesPreises}"/>
