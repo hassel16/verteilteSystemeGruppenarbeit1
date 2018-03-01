@@ -44,34 +44,39 @@ public class FavoriteTaskListServlet extends HttpServlet {
     @EJB
     BenutzerBean userBean;
 
+    //Anzeige der favorisierten Anzeigen
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
+        // Die Gemerkten Anzeigen des Nutzers aus der Datenbank auslesen.
         List<Anzeige> anzeige= this.userBean.getCurrentUser().getGemerkteAnzeigen();
+        //Die Anzeigen der Request anhängen
         request.setAttribute("tasks", anzeige);
 
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/favorite_task_list.jsp").forward(request, response);
     }
     
-    
+    //Löschen einer Anzeige aus den Favorisierten Anzeigen
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Formulareingaben aus WEB-INF/login/signup.jsp auslesen
         
-        request.setCharacterEncoding("utf-8");
+            // Formulareingaben aus WEB-INF/login/signup.jsp auslesen
+             request.setCharacterEncoding("utf-8");
             String i=request.getParameter("task_id_defavorisieren");
             
-            
+            //Umwandeln der id ins Format long
             long task_id = Long.parseUnsignedLong(i);
-            HttpSession session = request.getSession();
+            
+            //Die ausgewählte Anzeige aus den favorisierten Anzeigen löschen
             Benutzer benutzer= this.userBean.getCurrentUser();
             benutzer.getGemerkteAnzeigen().remove(this.anzeigeBean.findById(task_id));
             this.userBean.update(benutzer);
+            
+            
             response.sendRedirect(request.getRequestURI());
     }
     

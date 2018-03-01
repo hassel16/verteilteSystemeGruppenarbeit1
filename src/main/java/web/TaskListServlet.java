@@ -60,7 +60,7 @@ public class TaskListServlet extends HttpServlet {
         // Anzuzeigende Aufgaben suchen
         Kategorie category = null;
         ArtDerAnzeige art = null;
-
+        //Prüfen ob eine Kategorie ausgewählt wurde, wenn nicht wird die variable auf "genullt"
         if (searchCategory != null) {
             try {
                 category = this.categoryBean.findById(Long.parseLong(searchCategory));
@@ -68,65 +68,46 @@ public class TaskListServlet extends HttpServlet {
                 category = null;
             }
         }
-
+        //Prüfen ob ein Status mitgegeben wurde, wenn nicht wird die variable auf "genullt"
         if (searchStatus != null) {
             try {
                 art = ArtDerAnzeige.valueOf(searchStatus);
             } catch (IllegalArgumentException ex) {
                 art = null;
             }
-
-        }
- 
-        
+        }//Datenbankanfrage durch das anzeigeBean
         List<Anzeige> anzeige= this.anzeigeBean.search(searchText, category, art);
-        /*if(nurGemerkte){
-            List<Anzeige> gemerkte= this.userBean.getCurrentUser().getGemerkteAnzeigen();
-            List<Anzeige> ausgabe=new ArrayList<>();
-            for(int i=0; i<gemerkte.size();i++){
-                if(anzeige.contains(gemerkte.get(i))){
-                    ausgabe.add(gemerkte.get(i));
-                }
-            }
-            request.setAttribute("tasks", ausgabe);
-        } */
         request.setAttribute("tasks", anzeige);
 
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/task_list.jsp").forward(request, response);
     }
     
-    
+    //Hinzufügen einer Anzeige zu den favorisierten Anzeigen.
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        // Formulareingaben aus WEB-INF/login/signup.jsp auslesen
-        
+            // Formulareingaben auslesen
             request.setCharacterEncoding("utf-8");
             String i=request.getParameter("task_id_favorisieren");
-            
+            //die id zu long konvertieren
             long task_id = Long.parseUnsignedLong(i);
-            System.out.println("--------");
-            HttpSession session = request.getSession();
+            
+            //Prüfen ob die Favorisierte Anzeige bereits in den favorisierten Anzeigen enthalten ist. Die Prüfe wird über die Id vollzogen.
             Benutzer benutzer= this.userBean.getCurrentUser();
             List<Anzeige> gemerkte=benutzer.getGemerkteAnzeigen();
             boolean bereitsGemerkt=false;
+            //Schleife durch alle Elemente der Liste der favorisierten Anzeigen
             for(int j=0;j<gemerkte.size();j++){
-                System.out.println("--------");
                 if(gemerkte.get(j).getId()==task_id){
-                    bereitsGemerkt=true;
+                   bereitsGemerkt=true;
                     break;
                 }
-            }
-            System.out.println("---"+bereitsGemerkt);
+            }//wenn die Anzeige noch nicht gemerkt war, dann wird diese hinzugefügt
             if(!bereitsGemerkt){
-                 System.out.println("---"+this.anzeigeBean.findById(task_id).getId());
-                 System.out.println("---"+userBean.getCurrentUser().getBenutzername());
-                 
                 benutzer.getGemerkteAnzeigen().add(this.anzeigeBean.findById(task_id));
                 this.userBean.update(benutzer);
-            }
+            } //wenn die Anzeige bereits hinzugefügt war, wird der Benutzer nicht weiter belästigt.
             
             response.sendRedirect(request.getRequestURI());
         
