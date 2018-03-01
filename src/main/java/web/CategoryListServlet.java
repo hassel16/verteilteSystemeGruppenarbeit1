@@ -65,18 +65,23 @@ public class CategoryListServlet extends HttpServlet {
         // Angeforderte Aktion ausführen
         request.setCharacterEncoding("utf-8");
         
+        //Gewünschte Aktion aus URL-Parameter holen
         String action = request.getParameter("action");
 
+        //Wenn action noch null ist "" zuweisen damit switch geht
         if (action == null) {
             action = "";
         }
 
+        //Richtige Aktion entsprechend action durchführen und request und response weiterleiten
         switch (action) {
             case "create":
                 this.createCategory(request, response);
                 break;
             case "delete":
                 this.deleteCategories(request, response);
+                break;
+            default:
                 break;
         }
     }
@@ -95,12 +100,18 @@ public class CategoryListServlet extends HttpServlet {
         // Formulareingaben prüfen
         String name = request.getParameter("name");
 
+        //Kategorie instanzieren
         Kategorie category = new Kategorie(name);
         List<String> errors = this.validationBean.validate(category);
 
         // Neue Kategorie anlegen
         if (errors.isEmpty()) {
-            this.categoryBean.saveNew(category);
+            try {
+                 this.categoryBean.saveNewKategorie(category);
+            } catch (KategorieBean.KategorieNameAlreadyExistsException ex) {
+                errors.add(ex.getMessage());
+            }
+            
         }
 
         // Browser auffordern, die Seite neuzuladen

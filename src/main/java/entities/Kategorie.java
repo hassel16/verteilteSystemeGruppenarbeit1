@@ -8,6 +8,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class Kategorie implements Serializable{
     @GeneratedValue(generator = "category_ids")
     @TableGenerator(name = "category_ids", initialValue = 0, allocationSize = 50)
     private long id;
-
+    
     private String name;
 
     @OneToMany(mappedBy = "kategorie", fetch = FetchType.LAZY)
