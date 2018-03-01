@@ -78,6 +78,7 @@ public class Benutzer implements Serializable {
     private String email;
 
     @Size(min = 5, max = 64, message = "Die Telefonnummer muss zwischen fünf und 64 Zeichen lang sein.")
+    @NotNull(message="Die Telefonnummer darf nicht leer sein.")
     private String telefonnummer;
 
     @Transient

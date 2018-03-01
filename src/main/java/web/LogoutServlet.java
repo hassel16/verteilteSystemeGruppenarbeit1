@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet, dass den Anwender ausloggt (die Session beendet) und ihn dann
- * auf die Startseite weiterleitet.
+ * auf die Default weiterleitet.
  */
 @WebServlet(urlPatterns = {"/logout/"})
 public class LogoutServlet extends HttpServlet {

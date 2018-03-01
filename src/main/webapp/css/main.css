@@ -74,6 +74,9 @@ a:visited {
   color: #c12121;
   text-decoration: none;
 }
+.menuitem a {
+  color: orange;
+}
 a:hover {
   text-decoration: underline;
 }

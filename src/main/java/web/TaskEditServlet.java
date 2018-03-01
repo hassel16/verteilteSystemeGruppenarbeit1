@@ -68,9 +68,9 @@ public class TaskEditServlet extends HttpServlet {
         request.setAttribute("user", task.getBenutzer());
         request.setAttribute("other_user", !userBean.getCurrentUser().getBenutzername().equals(task.getBenutzer().getBenutzername()));
 
-        if (session.getAttribute("task_form") == null) {
-            // Keine Formulardaten mit fehlerhaften Daten in der Session,
-            // daher Formulardaten aus dem Datenbankobjekt übernehmen
+        // Wenn keine Formulardaten mit fehlerhaften Daten in der Session,
+        if (session.getAttribute("task_form") == null) {   
+            // dann können die Formulardaten aus dem Datenbankobjekt übernommen werden.
             request.setAttribute("task_form", this.createTaskForm(task));
         }
 
@@ -80,19 +80,22 @@ public class TaskEditServlet extends HttpServlet {
         session.removeAttribute("task_form");
     }
 
+    //Bearbeitung der Anzeigen auf Wunsch des Nutzers: Löschen, anpassen oder erstellen einer Anzeige. 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Angeforderte Aktion ausführen
+        
         request.setCharacterEncoding("utf-8");
-
+        // Auslesen der Parameter aus der Request
         String action = request.getParameter("action");
 
+        //Umgehen von einem Nullpointer
         if (action == null) {
             action = "";
         }
-
+        
+        //Fallunterscheidung ob das Objekt gelöscht oder verändert (bzw. gespeichert) werden soll.
         switch (action) {
             case "save":
                 this.saveTask(request, response);
@@ -104,7 +107,7 @@ public class TaskEditServlet extends HttpServlet {
     }
 
     /**
-     * Aufgerufen in doPost(): Neue oder vorhandene Aufgabe speichern
+     * Aufgerufen in doPost(): Neue oder vorhandene Anzeige speichern
      *
      * @param request
      * @param response
@@ -116,16 +119,17 @@ public class TaskEditServlet extends HttpServlet {
 
         // Formulareingaben prüfen
         List<String> errors = new ArrayList<>();
-
+        //Formulareingaben auslesen.
         String taskCategory = request.getParameter("task_category");
         String taskStatus = request.getParameter("task_status");
         String taskShortText = request.getParameter("task_short_text");
         String taskLongText = request.getParameter("task_long_text");
         String taskValue = request.getParameter("task_value");
         String taskValueType = request.getParameter("task_value_type");
-
+        
+        //Die zu manipulierende Anzeige wird aus der Request direkt ausgelesen, durch die unten implementierte Methode
         Anzeige task = this.getRequestedTask(request);
-
+        //Anpassen der Kategorie, falls diese verändert werden sollte.
         if (taskCategory != null && !taskCategory.trim().isEmpty()) {
             try {
                 task.setKategorie(this.categoryBean.findById(Long.parseLong(taskCategory)));
@@ -133,12 +137,14 @@ public class TaskEditServlet extends HttpServlet {
                 // Ungültige oder keine ID mitgegeben
             }
         }
-
+        
+        //Anpassen der Preisart
         try {
             task.setArtDesPreises(ArtDesPreises.valueOf(taskValueType));
         } catch (IllegalArgumentException ex) {
             errors.add("Die ausgewählte Art des Preises ist nicht vorhanden.");
         }
+        //Anpassen des Preises der Anzeige
         if (taskValue != null && !taskValue.trim().isEmpty()) {
             try {
                 task.setPreisvorstellung(Integer.parseInt(taskValue));
@@ -146,31 +152,33 @@ public class TaskEditServlet extends HttpServlet {
                 // Ungültige oder keine ID mitgegeben
             }
         }
-
+        
         try {
             task.setArt(ArtDerAnzeige.valueOf(taskStatus));
         } catch (IllegalArgumentException ex) {
             errors.add("Die ausgewählte Art ist nicht vorhanden.");
         }
-
+        //Titel und Beschreibung der Anzeige wird übergeben.
         task.setTitel(taskShortText);
         task.setBeschreibung(taskLongText);
-
+        
+        //Wenn Eingaben falsch sind, werden diese in "errors" hinzugefügt
         this.validationBean.validate(task, errors);
 
-        // Datensatz speichern
+        // Datensatz speichern, wenn keine Fehler
         if (errors.isEmpty()) {
             this.anzeigeBean.update(task);
         }
 
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
-            // Keine Fehler: Startseite aufrufen
+            // Keine Fehler: Startseite/Übersicht aufrufen
             response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
         } else {
             // Fehler: Formuler erneut anzeigen
             FormValues formValues = new FormValues();
             formValues.setValues(request.getParameterMap());
+            //Fehler in dem Formular anzeigen
             formValues.setErrors(errors);
 
             HttpSession session = request.getSession();
@@ -181,7 +189,7 @@ public class TaskEditServlet extends HttpServlet {
     }
 
     /**
-     * Aufgerufen in doPost: Vorhandene Aufgabe löschen
+     * Aufgerufen in doPost: Vorhandene Anzeige löschen
      *
      * @param request
      * @param response
@@ -200,7 +208,7 @@ public class TaskEditServlet extends HttpServlet {
     }
 
     /**
-     * Zu bearbeitende Aufgabe aus der URL ermitteln und zurückgeben. Gibt
+     * Zu bearbeitende Anzeige aus der URL ermitteln und zurückgeben. Gibt
      * entweder einen vorhandenen Datensatz oder ein neues, leeres Objekt
      * zurück.
      *
@@ -208,7 +216,7 @@ public class TaskEditServlet extends HttpServlet {
      * @return Zu bearbeitende Aufgabe
      */
     private Anzeige getRequestedTask(HttpServletRequest request) {
-        // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
+        // Zunächst davon ausgehen, dass eine neue Anzeige angelegt werden soll
         Anzeige anzeige = new Anzeige();
         anzeige.setBenutzer(this.userBean.getCurrentUser());
         anzeige.setEinstellungsdatum(LocalDate.now());
@@ -219,6 +227,7 @@ public class TaskEditServlet extends HttpServlet {
         // ID aus der URL herausschneiden
         String taskId = request.getPathInfo();
 
+            //Nullpointer umgehen
         if (taskId == null) {
             taskId = "";
         }
@@ -231,11 +240,11 @@ public class TaskEditServlet extends HttpServlet {
 
         // Versuchen, den Datensatz mit der übergebenen ID zu finden
         try {
+            //Wenn es den Datensatz bereits gab, wird die bestehende Variable durch jenes Objekt ersetzt
             anzeige = this.anzeigeBean.findById(Long.parseLong(taskId));
         } catch (NumberFormatException ex) {
-            // Ungültige oder keine ID in der URL enthalten
+            // Ungültige oder keine ID in der URL enthalten, macht aber nix, also gehts direkt weiter.
         }
-
         return anzeige;
     }
 

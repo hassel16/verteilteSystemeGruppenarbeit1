@@ -14,19 +14,14 @@ import beans.BenutzerBean;
 import beans.KategorieBean;
 import entities.Anzeige;
 import entities.Benutzer;
-import entities.ArtDerAnzeige;
-import entities.Kategorie;
 import java.io.IOException;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Locale;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Servlet für die Startseite bzw. jede Seite, die eine Liste der Aufgaben
@@ -44,7 +39,7 @@ public class FavoriteTaskListServlet extends HttpServlet {
     @EJB
     BenutzerBean userBean;
 
-    //Anzeige der favorisierten Anzeigen
+    //Anzeige einer Liste der favorisierten Anzeigen
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -58,17 +53,18 @@ public class FavoriteTaskListServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/app/favorite_task_list.jsp").forward(request, response);
     }
     
-    //Löschen einer Anzeige aus den Favorisierten Anzeigen
+    //Löschen einer Anzeige aus den favorisierten Anzeigen
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         
-            // Formulareingaben aus WEB-INF/login/signup.jsp auslesen
-             request.setCharacterEncoding("utf-8");
+            // Formulareingaben aus WEB-INF/app/favorite_tasks_list.jsp auslesen
+            request.setCharacterEncoding("utf-8");
             String i=request.getParameter("task_id_defavorisieren");
             
             //Umwandeln der id ins Format long
+            //(Kein Exception Handling, weil die id garantiert eine Nummer ist, stammt ja direkt aus unseren Daten)
             long task_id = Long.parseUnsignedLong(i);
             
             //Die ausgewählte Anzeige aus den favorisierten Anzeigen löschen
@@ -76,7 +72,7 @@ public class FavoriteTaskListServlet extends HttpServlet {
             benutzer.getGemerkteAnzeigen().remove(this.anzeigeBean.findById(task_id));
             this.userBean.update(benutzer);
             
-            
+            //Die Liste der favorisierten Anzeigen ohne die gelöschte Anzeige anzeigen
             response.sendRedirect(request.getRequestURI());
     }
     
