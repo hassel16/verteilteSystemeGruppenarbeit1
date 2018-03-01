@@ -17,6 +17,7 @@ import entities.Anzeige;
 import entities.ArtDerAnzeige;
 import entities.ArtDesPreises;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -151,7 +152,7 @@ public class TaskEditServlet extends HttpServlet {
                 taskValue = taskValue.replace(",", "."); 
                 task.setPreisvorstellung(Double.parseDouble(taskValue));
             } catch (NumberFormatException ex) {
-                // Ungültige oder keine ID mitgegeben
+                errors.add("Der eingegebene Preis ist keine Zahl");
             }
         }
         
