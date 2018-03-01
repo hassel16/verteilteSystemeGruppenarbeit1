@@ -76,17 +76,17 @@ public class Anzeige implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Kategorie kategorie;
     
-    //Für Ausgabe in Tasklist
+    //<editor-fold defaultstate="collapsed" desc="Für Ausgabe in Tasklist">
     public String formatEinstellungsdatum(){
         return WebUtils.formatDate(this.getEinstellungsdatum());
     }
     
-    //Für Ausgabe in Tasklist
     public String formatPreis(){
         return WebUtils.formatDouble(this.getPreisvorstellung()) + " €";
     }
+    //</editor-fold>
     
-     //<editor-fold defaultstate="collapsed" desc="Getter und Setter für LocalDate und LocalTime mit Umrechnung">
+    //<editor-fold defaultstate="collapsed" desc="Getter und Setter für LocalDate und LocalTime mit Umrechnung">
     //Darby kann kein LocalDate udn localtime
     public void setEinstellungsdatum(LocalDate date) {
         this.einstellungsdatum = Date.valueOf(date);

@@ -147,6 +147,7 @@ public class TaskEditServlet extends HttpServlet {
         //Anpassen des Preises der Anzeige
         if (taskValue != null && !taskValue.trim().isEmpty()) {
             try {
+                //, mit . ersetzen da java . braucht fürs parsen
                 taskValue = taskValue.replace(",", "."); 
                 task.setPreisvorstellung(Double.parseDouble(taskValue));
             } catch (NumberFormatException ex) {
