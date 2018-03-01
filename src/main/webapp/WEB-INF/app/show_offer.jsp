@@ -70,18 +70,19 @@ wa
                     Angelegt am:
                 </label>
                  <div class="side-by-side">
-                     <c:out value="${datum}"/>
+                     <c:out value="$${utils.formatDate(anzeige.getDatum(), datePattern)}"/>
                   </div>
                   
                   <label>
                     Anbieter
                     </label>
                  <div class="side-by-side">
-                     <c:out value="${anzeige.getBesitzer().getName()}"/>
+                     <c:out value="${anzeige.getBesitzer().getVorname()} ${anzeige.getBesitzer().getNachname()}"/>
                      <c:out value="${anzeige.getBesitzer().getHausnummer()} ${anzeige.getBesitzer().getStraße()}"/>
                      <c:out value="${anzeige.getBesitzer().getPlz()} ${anzeige.getBesitzer().getOrt()}"/>
+                     <c:out value="${anzeige.getBesitzer().getLand()}"/>
                      <c:out value="${anzeige.getBesitzer().getEmail()}"/>
-                     <c:out value="${anzeige.getBesitzer().getTel()}"/>
+                     <c:out value="${anzeige.getBesitzer().getTelefonnummer()}"/>
                   </div>
                   
 
