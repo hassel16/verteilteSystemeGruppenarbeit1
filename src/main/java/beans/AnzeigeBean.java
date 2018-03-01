@@ -15,10 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-/**
- *
- * @author FSche
- */
+
 @Stateless
 public class AnzeigeBean  extends EntityBean<Anzeige, Long> { 
    

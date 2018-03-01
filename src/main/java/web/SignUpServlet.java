@@ -118,7 +118,12 @@ public class SignUpServlet extends HttpServlet {
         // Neuen Benutzer anlegen
         if (errors.isEmpty()) {
             try {
-                this.userBean.signup(username, password1, vorname, nachname, strasse, hausnummer, postleitzahl, ort, land, eMail, telefonnummer);
+                
+                //Wenn wie in Vorlesung
+                //this.userBean.signup(username, password1, vorname, nachname, strasse, hausnummer, postleitzahl, ort, land, eMail, telefonnummer);
+                
+                //Cleverer da ja schon ein Benutzerobjekt existiert und wenn keine Fehler sind ist diese Vorgehensweise ok
+                this.userBean.signup(user);
             } catch (BenutzerBean.UserAlreadyExistsException ex) {
                 errors.add(ex.getMessage());
             }

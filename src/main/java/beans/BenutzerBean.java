@@ -58,6 +58,14 @@ public class BenutzerBean extends EntityBean<Benutzer, String> {
         user.addToGroup("youbuy-app-user");
         em.persist(user);
     }
+    
+        public void signup(Benutzer user) throws UserAlreadyExistsException {
+        if (em.find(Benutzer.class, user.getBenutzername()) != null) {
+            throw new UserAlreadyExistsException("Der Benutzername $B ist bereits vergeben.".replace("$B", user.getBenutzername()));
+        }
+        user.addToGroup("youbuy-app-user");
+        em.persist(user);
+    }
 
     public void changeData(String benutzername, String password, String oldPassword, String vorname, String nachname, String strasse, String hausnummer, String postleitzahl, String ort, String land, String eMail, String telefonnummer) throws InvalidCredentialsException {
 
