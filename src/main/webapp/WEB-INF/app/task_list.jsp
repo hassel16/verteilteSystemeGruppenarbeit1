@@ -63,6 +63,16 @@
                     </option>
                 </c:forEach>
             </select>
+
+            <select name="search_preisart">
+                <option value="">Alle Preisart</option>
+
+                <c:forEach items="${preisarten}" var="preisart">
+                    <option value="${preisart}" ${param.search_preisart == preisart ? 'selected' : ''}>
+                        <c:out value="${preisart.label}"/>
+                    </option>
+                </c:forEach>
+            </select>
             <button class="icon-search" type="submit">
                 Suchen
             </button>
@@ -77,7 +87,7 @@
             </c:when>
             <c:otherwise>
                 <jsp:useBean id="utils" class="web.WebUtils"/>
-                
+
                 <table>
                     <thead>
                         <tr>
@@ -93,7 +103,7 @@
                     </thead>
                     <c:forEach items="${tasks}" var="task">
                         <tr>
-                            <form method="post" class="stacked">
+                        <form method="post" class="stacked">
                             <td>
                                 <a href="<c:url value="/app/task/${task.id}/"/>">
                                     <c:out value="${task.titel}"/>
@@ -121,14 +131,14 @@
                             </td>
                             <td>
                                 <button class="icon-th" type="submit">
-                                    
+
                                 </button>
                             </td>
-                            </form>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </c:otherwise>
-        </c:choose>
-    </jsp:attribute>
+                        </form>
+                    </tr>
+                </c:forEach>
+            </table>
+        </c:otherwise>
+    </c:choose>
+</jsp:attribute>
 </template:base>

@@ -8,6 +8,7 @@ package beans;
 import entities.Kategorie;
 import entities.Anzeige;
 import entities.ArtDerAnzeige;
+import entities.ArtDesPreises;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -47,7 +48,7 @@ public class AnzeigeBean  extends EntityBean<Anzeige, Long> {
      * @param status Status (optional)
      * @return Liste mit den gefundenen Aufgaben
      */
-    public List<Anzeige> search(String search, Kategorie kategorie, ArtDerAnzeige art) {
+    public List<Anzeige> search(String search, Kategorie kategorie, ArtDerAnzeige art, ArtDesPreises artDesPreises) {
         // Hilfsobjekt zum Bauen des Query
         CriteriaBuilder cb = this.em.getCriteriaBuilder();
         
@@ -72,6 +73,11 @@ public class AnzeigeBean  extends EntityBean<Anzeige, Long> {
         // WHERE t.status = :status
         if (art != null) {
             query.where(cb.equal(from.get("art"), art));
+        }
+        
+                // WHERE t.status = :status
+        if (artDesPreises != null) {
+            query.where(cb.equal(from.get("artDesPreises"), artDesPreises));
         }
         
         return em.createQuery(query).getResultList();
