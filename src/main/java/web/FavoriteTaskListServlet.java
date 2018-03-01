@@ -45,7 +45,9 @@ public class FavoriteTaskListServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //Liste 
+        
         List<Anzeige> anzeige=new ArrayList<>();
+        try{
         // Die Gemerkten Anzeigen des Nutzers aus der Datenbank auslesen.
         List<Anzeige> gemerkte= this.userBean.getCurrentUser().getGemerkteAnzeigen();
         //Prüfen ob die gemerkten Anzeigen wirklich noch als Daten existieren. Es kann sein, dass eine Anzeige nach dem löschen
@@ -54,10 +56,10 @@ public class FavoriteTaskListServlet extends HttpServlet {
         for(int i=0; i<gemerkte.size(); i++){
             if(anzeigeBean.findById(gemerkte.get(i).getId())!=null)
                 anzeige.add(gemerkte.get(i));
-            else
-                gemerkte.remove(i);
         }
-        
+        }catch(javax.ejb.EJBException e){
+            System.out.println("something went wrong.:(");
+        }
         //Die Anzeigen der Request anhängen
         request.setAttribute("tasks", anzeige);
 
