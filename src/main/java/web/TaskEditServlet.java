@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
+ * Seite zum Anlegen oder Bearbeiten einer Anzeige.
  */
 @WebServlet(urlPatterns = "/app/task/*")
 public class TaskEditServlet extends HttpServlet {
@@ -51,18 +51,18 @@ public class TaskEditServlet extends HttpServlet {
     @EJB
     ValidationBean validationBean;
 
+    //Anzeige des Formulars zum Ändern einer Anzeige
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
+        // Verfügbare Kategorien, Statusse und Preisarten für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
         request.setAttribute("statuses", ArtDerAnzeige.values());
         request.setAttribute("values", ArtDesPreises.values());
 
-        // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
-
+        //Die Möglichen Werte in den Request stecken, damit es später angezeigt werden kann.
         Anzeige task = this.getRequestedTask(request);
         request.setAttribute("edit", task.getId() != 0);
         request.setAttribute("user", task.getBenutzer());

@@ -88,7 +88,7 @@ public class WebUtils {
             return null;
         }
     }
-
+        
     public String formatDouble(Double d) {
         DecimalFormat df = new DecimalFormat("#,##0.00");
         df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.GERMANY));

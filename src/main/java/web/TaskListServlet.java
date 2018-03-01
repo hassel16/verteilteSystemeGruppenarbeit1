@@ -8,7 +8,6 @@
  * Creative Commons Namensnennung 4.0 International Lizenz.
  */
 package web;
-
 import beans.AnzeigeBean;
 import beans.BenutzerBean;
 import beans.KategorieBean;
@@ -30,8 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet für die Startseite bzw. jede Seite, die eine Liste der Aufgaben
- * zeigt.
+ * Servlet für die Startseite, es zeigt eine Lister der Anzeigen an.
  */
 @WebServlet(urlPatterns = {"/app/tasks/"})
 public class TaskListServlet extends HttpServlet {
@@ -45,11 +43,12 @@ public class TaskListServlet extends HttpServlet {
     @EJB
     BenutzerBean userBean;
 
+    //Die Liste wird nach den wünschen des Nutzers angepasst und an das JSP zur Darstellung übergeben
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
+        // Verfügbare Kategorien, Statusse, Preisarten für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
         request.setAttribute("statuses", ArtDerAnzeige.values());
         request.setAttribute("preisarten", ArtDesPreises.values());
@@ -60,12 +59,12 @@ public class TaskListServlet extends HttpServlet {
         String searchStatus = request.getParameter("search_status");
         String searchPreisArt = request.getParameter("search_preisart");
 
-        // Anzuzeigende Aufgaben suchen
+        //Definition der Variablen, welche später die Suche einschränken
         Kategorie category = null;
         ArtDerAnzeige art = null;
         ArtDesPreises preisart = null;
 
-        //Prüfen ob eine Kategorie ausgewählt wurde, wenn nicht wird die variable auf "genullt"
+        //Prüfen ob eine Kategorie mitgegeben/ausgewählt wurde, wenn nicht wird die Variable "genullt"
         if (searchCategory != null) {
             try {
                 category = this.categoryBean.findById(Long.parseLong(searchCategory));
@@ -73,7 +72,8 @@ public class TaskListServlet extends HttpServlet {
                 category = null;
             }
         }
-        //Prüfen ob ein Status mitgegeben wurde, wenn nicht wird die variable auf "genullt"
+        
+        //Prüfen ob ein Status mitgegeben/ausgewählt wurde, wenn nicht wird die Variable "genullt"
         if (searchStatus != null) {
             try {
                 art = ArtDerAnzeige.valueOf(searchStatus);
@@ -81,7 +81,8 @@ public class TaskListServlet extends HttpServlet {
                 art = null;
             }
         }
-
+        
+        //Prüfen ob eine Preisart mitgegeben/ausgewählt wurde, wenn nicht wird die Variable "genullt"
         if (searchPreisArt != null) {
             try {
                 preisart = ArtDesPreises.valueOf(searchPreisArt);
@@ -89,7 +90,8 @@ public class TaskListServlet extends HttpServlet {
                 preisart = null;
             }
         }
-    //Datenbankanfrage durch das anzeigeBean
+        
+        //Datenbankanfrage durch das anzeigeBean durchführen
         List<Anzeige> anzeige = this.anzeigeBean.search(searchText, category, art,preisart);
         request.setAttribute("tasks", anzeige);
 
@@ -104,7 +106,7 @@ public class TaskListServlet extends HttpServlet {
             // Formulareingaben auslesen
             request.setCharacterEncoding("utf-8");
             String i=request.getParameter("task_id_favorisieren");
-            //die id zu long konvertieren
+            //Die id zu long konvertieren
             long task_id = Long.parseUnsignedLong(i);
             
             //Prüfen ob die Favorisierte Anzeige bereits in den favorisierten Anzeigen enthalten ist. Die Prüfe wird über die Id vollzogen.

@@ -152,7 +152,6 @@
 
                     <label for="signup_telefonnummer">
                         Telefonnummer: 
-                        <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
                         <input type="text" name="signup_telefonnummer" value="${signup_form.values["signup_telefonnummer"][0]}">

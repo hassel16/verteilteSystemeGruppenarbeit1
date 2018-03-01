@@ -45,7 +45,7 @@ public class Benutzer implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "USERNAME", length = 64)
-    @Size(min = 5, max = 64, message = "Der Benutzername muss zwischen fünf und 64 Zeichen lang sein.")
+    @Size(min = 4, max = 64, message = "Der Benutzername muss zwischen fünf und 64 Zeichen lang sein.")
     @NotNull(message = "Der Benutzername darf nicht leer sein.")
     private String benutzername;
 
@@ -53,22 +53,22 @@ public class Benutzer implements Serializable {
     @NotNull(message = "Das Passwort darf nicht leer sein.")
     private String passwortHash;
     
-    @Size(min = 2, max = 64, message = "Der Vorname muss zwischen zwei und 64 Zeichen lang sein.")
+    @Size(min = 1, max = 64, message = "Der Vorname muss zwischen zwei und 64 Zeichen lang sein.")
     @NotNull(message = "Der Vorname darf nicht leer sein.")
     private String vorname;
     
-    @Size(min = 2, max = 64, message = "Der Nachname muss zwischen zwei und 64 Zeichen lang sein.")
+    @Size(min = 1, max = 64, message = "Der Nachname muss zwischen zwei und 64 Zeichen lang sein.")
     @NotNull(message = "Der Nachname darf nicht leer sein.")
     private String nachname;
     
-    @Size(min = 2, max = 64, message = "Die Straße muss zwischen zwei und 64 Zeichen lang sein.")
+    @Size(min = 1, max = 64, message = "Die Straße muss zwischen zwei und 64 Zeichen lang sein.")
     @NotNull(message = "Die Straße darf nicht leer sein.")
     private String strasse;
     
     @NotNull(message = "Die Hausnummer darf nicht leer sein.")
     private String hausnummer; //String weil zb 2a auch mgl ist
     
-    @Size(min = 3, max = 10, message = "Die Postleitzahl muss zwischen drei und 10 Zeichen lang sein.")
+    @Size(min = 1, max = 10, message = "Die Postleitzahl muss zwischen drei und 10 Zeichen lang sein.")
     @NotNull(message = "Die Postleitzahl darf nicht leer sein.")
     private String postleitzahl;
     
@@ -76,7 +76,7 @@ public class Benutzer implements Serializable {
     @NotNull(message = "Der Ort darf nicht leer sein.")
     private String ort;
     
-    @Size(min = 2, max = 64, message = "Das Land muss zwischen zwei und 64 Zeichen lang sein.")
+    @Size(min = 1, max = 64, message = "Das Land muss zwischen zwei und 64 Zeichen lang sein.")
     @NotNull(message = "Das Land darf nicht leer sein.")
     private String land;
     
